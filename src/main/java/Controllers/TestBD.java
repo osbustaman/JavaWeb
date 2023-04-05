@@ -4,19 +4,15 @@
  */
 package Controllers;
 
-import connection.Conexion;
 import java.sql.Connection;
 import java.sql.SQLException;
+import poo_2_semana_5.ConexionMySQL;
 
-/**
- *
- * @author osbustaman
- */
 public class TestBD {
-    Conexion con;
+    ConexionMySQL con;
     
     public void testConexion() throws SQLException{
-        con = new Conexion();
+        con = new ConexionMySQL();
         Connection _con = con.conector();
         
         if (_con != null) {

@@ -1,30 +1,26 @@
-package connection;
+package poo_2_semana_5;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
 
-public class Conexion {
-    
+public class ConexionMySQL {
     // Declaramos la conexion a mysql
     private static Connection con;
-    // Declaramos los datos de conexion a la bd com.mysql.cj.jdbc.Driver
-    private static final String driver="com.mysql.cj.jdbc.Driver";
+    // Declaramos los datos de conexion a la bd
+    private static final String driver="com.mysql.jdbc.Driver";
     private static final String user="root";
     private static final String pass="123456789";
-    private static final String url="jdbc:mysql://localhost:3306/bd_gestion_personas?zeroDateTimeBehavior=CONVERT_TO_NULL";
-    //private static final String url="jdbc:mysql://localhost:3306/bd_gestion_personas";
+    //private static final String url="jdbc:mysql://localhost:3306/bd_gestion_personas?zeroDateTimeBehavior=CONVERT_TO_NULL";
+    private static final String url="jdbc:mysql://localhost:3306/bd_gestion_personas";
     
     public Connection conector() {
-        
-        System.out.println("ENTRO AQUI!!");
-        
         // Reseteamos a null la conexion a la bd
         con=null;
         try{
             // Nos conectamos a la bd
-            con = DriverManager.getConnection(url, user, pass);
+            con= (Connection) DriverManager.getConnection(url, user, pass);
             // Si la conexion fue exitosa mostramos un mensaje de conexion exitosa
             if (con!=null){
                 System.out.println("Conexion establecida");
@@ -37,5 +33,5 @@ public class Conexion {
         }
         return con;
     }
-    
+
 }

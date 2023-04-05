@@ -31,7 +31,7 @@
             <div class="login_wrapper">
                 <div class="animate form login_form">
                     <section class="login_content">
-                        <form>
+                        <form action="LoginUser" method="POST">
                             <h1>Login Usuario</h1>
                             <div>
                                 <input type="text" name="rut" class="form-control" placeholder="Username" required="" />
@@ -40,7 +40,7 @@
                                 <input type="password" name="password" class="form-control" placeholder="Password" required="" />
                             </div>
                             <div>
-                                <a class="btn btn-default submit" href="index.html">Ingresar</a>
+                                <button type="submit" class="btn btn-default submit">Ingresar</button>
                                 <a class="btn btn-default reset_pass" href="#">Recuperar Contraseña</a>
                             </div>
 
