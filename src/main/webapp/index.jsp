@@ -43,7 +43,7 @@
                                 <button type="submit" class="btn btn-default submit">Ingresar</button>
                                 <a class="btn btn-default reset_pass" href="#">Recuperar Contraseña</a>
                             </div>
-
+                            <%= request.getAttribute("mensaje") %>
                             <div class="clearfix"></div>
 
                             <div class="separator">

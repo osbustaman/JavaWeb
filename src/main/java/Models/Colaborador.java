@@ -3,6 +3,8 @@ package Models;
 public class Colaborador {
     private int id;
     private String rut;
+    private String nombres;
+    private String apellidos;
     private Pais pais;
     private Region region;
     private Comuna comuna;
@@ -15,9 +17,11 @@ public class Colaborador {
     private int perfil;
     private String tokenSesion;
 
-    public Colaborador(int id, String rut, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, int perfil, String tokenSesion) {
+    public Colaborador(int id, String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, int perfil, String tokenSesion) {
         this.id = id;
         this.rut = rut;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
         this.pais = pais;
         this.region = region;
         this.comuna = comuna;
@@ -31,8 +35,10 @@ public class Colaborador {
         this.tokenSesion = tokenSesion;
     }
 
-    public Colaborador(String rut, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, int perfil, String tokenSesion) {
+    public Colaborador(String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, int perfil, String tokenSesion) {
         this.rut = rut;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
         this.pais = pais;
         this.region = region;
         this.comuna = comuna;
@@ -47,6 +53,22 @@ public class Colaborador {
     }
 
     public Colaborador() {
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public int getPerfil() {

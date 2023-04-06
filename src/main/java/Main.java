@@ -1,5 +1,5 @@
 
-import Controllers.TestBD;
+import connection.Utils;
 import java.sql.SQLException;
 
 /*
@@ -13,7 +13,9 @@ import java.sql.SQLException;
  */
 public class Main {
     public static void main(String[] args) throws SQLException{
-        TestBD cc = new TestBD();
-        cc.testConexion();
+        Utils cc = new Utils();
+        //cc.testConexion();
+        
+        System.out.println(cc.generaToken());
     }
 }

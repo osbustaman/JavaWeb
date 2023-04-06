@@ -11,7 +11,7 @@ public class ConexionMySQL {
     // Declaramos los datos de conexion a la bd
     private static final String driver="com.mysql.cj.jdbc.Driver";
     private static final String user="root";
-    private static final String pass="123456789";
+    private static final String pass="";
     private static final String url="jdbc:mysql://localhost:3306/bd_gestion_personas?zeroDateTimeBehavior=CONVERT_TO_NULL";
     
     public Connection conector() throws ClassNotFoundException {
