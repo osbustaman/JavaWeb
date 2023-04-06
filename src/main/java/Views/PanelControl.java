@@ -56,6 +56,8 @@ public class PanelControl extends HttpServlet {
                 ColaboradorDao colaboradorDao = new ColaboradorDao();
                 request.setAttribute("lstPaises", colaboradorDao.listarPaises());
                 
+                request.setAttribute("lstRegiones", colaboradorDao.listarRegiones());
+                
                 rd = request.getRequestDispatcher("AddColaborador.jsp");
                 rd.forward(request, response);
                 break;

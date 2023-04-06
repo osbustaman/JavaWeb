@@ -1,3 +1,4 @@
+<%@page import="Models.Region"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="Models.Pais" %>
@@ -167,9 +168,11 @@
                                 <div class="col-md-6 col-sm-6 ">
                                     <select id="region" name="region" class="form-control" required="">
                                         <option value="">Selccione..</option>
-                                        <option value="press">Press</option>
-                                        <option value="net">Internet</option>
-                                        <option value="mouth">Word of mouth</option>
+                                        <%
+                                        List<Region> regiones=(List<Region>)request.getAttribute("lstRegiones");
+                                        for(Region region:regiones){%>
+                                        <option value="<%= region.getId() %>"><%= region.getNombreRegion() %></option>
+                                        <%}%>
                                     </select>
                                 </div>
                             </div>

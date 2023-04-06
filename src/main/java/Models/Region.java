@@ -16,6 +16,13 @@ public class Region {
         this.pais = pais;
     }
 
+    public Region(int id, String nombreRegion) {
+        this.id = id;
+        this.nombreRegion = nombreRegion;
+    }
+    
+    
+
     public Region() {
     }
 

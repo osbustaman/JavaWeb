@@ -16,7 +16,6 @@ import connection.ConexionMySQL;
 
 public class Utils {
     ConexionMySQL con;
-    static final String keyToken = "annakynmombergtorres";
     
     public void testConexion() throws SQLException, ClassNotFoundException{
         con = new ConexionMySQL();

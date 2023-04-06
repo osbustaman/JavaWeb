@@ -173,12 +173,12 @@ public class ColaboradorDao {
             ResultSet rsSelect = psSelect.executeQuery();
 
             // Recorrer los resultados y mostrarlos por consola
-            List<Pais> lista = new ArrayList<>();
+            List<Region> lista = new ArrayList<>();
             while (rsSelect.next()) {
-                Pais pais = new Pais(rsSelect.getInt("id"), rsSelect.getString("nombre_pais"));
-                lista.add(pais);
+                Region region;
+                region = new Region(rsSelect.getInt("id"), rsSelect.getString("nombre_region"));
+                lista.add(region);
             }
-            
             return lista;
         }
     }
