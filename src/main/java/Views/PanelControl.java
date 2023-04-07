@@ -5,7 +5,12 @@
 package Views;
 
 import Controllers.ColaboradorDao;
+import Models.Cargo;
+import Models.Colaborador;
+import Models.Comuna;
+import Models.Empresa;
 import Models.Pais;
+import Models.Region;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
@@ -29,8 +34,6 @@ import javax.servlet.http.HttpSession;
 public class PanelControl extends HttpServlet {
     
     RequestDispatcher rd;
-    ColaboradorDao cd;
-    List<Pais> listaPaises;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
@@ -50,13 +53,17 @@ public class PanelControl extends HttpServlet {
         if(null == accion){
             response.sendRedirect("PanelControl.jsp");
         }else switch (accion) {
-            case "add_colaborador":
+            case "new_colaborador":
                 request.setAttribute("pagina", "AddColaborador.jsp");
                 
                 ColaboradorDao colaboradorDao = new ColaboradorDao();
                 request.setAttribute("lstPaises", colaboradorDao.listarPaises());
                 
                 request.setAttribute("lstRegiones", colaboradorDao.listarRegiones());
+                
+                request.setAttribute("lstComunas", colaboradorDao.listarComunas());
+                
+                request.setAttribute("lstCargos", colaboradorDao.listarCargos());
                 
                 rd = request.getRequestDispatcher("AddColaborador.jsp");
                 rd.forward(request, response);
@@ -71,8 +78,6 @@ public class PanelControl extends HttpServlet {
                 response.sendRedirect("PanelControl.jsp");
                 break;
         }
-        
-        
     }
 
     @Override
@@ -88,8 +93,58 @@ public class PanelControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         try {
-            processRequest(request, response);
+            ColaboradorDao colaboradorDao = new ColaboradorDao();
+            
+            String rut = request.getParameter("rut");
+            String nombres = request.getParameter("nombres");
+            String apellidos = request.getParameter("apellidos");
+            String direccion = request.getParameter("direccion");
+            
+            int pais_id = Integer.parseInt(request.getParameter("pais"));
+            Pais pais = new Pais(pais_id);
+            
+            int region_id = Integer.parseInt(request.getParameter("region"));
+            Region region = new Region(region_id);
+            
+            int comuna_id = Integer.parseInt(request.getParameter("comuna"));
+            Comuna comuna = new Comuna(comuna_id);
+            
+            String estadoCivil = request.getParameter("estado_civil");
+            String sexo = request.getParameter("sexo");
+            
+            int empresa_id = 1;
+            Empresa empresa = new Empresa();
+            empresa.setId(empresa_id);
+            
+            int cargo_id = Integer.parseInt(request.getParameter("cargo"));
+            Cargo cargo = new Cargo();
+            cargo.setId(cargo_id);
+            
+            String fechaIngreso = request.getParameter("fecha_ingreso");
+            String password = request.getParameter("password");
+            
+            int perfil = Integer.parseInt(request.getParameter("perfil"));
+            
+            Colaborador colaborador = new Colaborador(rut
+                    , nombres
+                    , apellidos
+                    , pais
+                    , region
+                    , comuna
+                    , direccion
+                    , estadoCivil
+                    , sexo
+                    , empresa
+                    , cargo
+                    , fechaIngreso
+                    , password
+                    , perfil
+            );
+      
+            System.out.println(colaborador.getPassword());
+            colaboradorDao.insertarColaborador(colaborador);
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(PanelControl.class.getName()).log(Level.SEVERE, null, ex);
         }

@@ -21,9 +21,8 @@ public class Region {
         this.nombreRegion = nombreRegion;
     }
     
-    
-
-    public Region() {
+    public Region(int id) {
+        this.id = id;
     }
 
     public int getId() {

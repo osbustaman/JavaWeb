@@ -13,6 +13,10 @@ public class Pais {
         this.nombrePais = nombrePais;
     }
 
+    public Pais(int id) {
+        this.id = id;
+    }
+
     public Pais() {
     }
 

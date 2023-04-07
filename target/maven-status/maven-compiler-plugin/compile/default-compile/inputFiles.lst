@@ -1,9 +1,7 @@
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Comuna.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\connection\ConexionMySQL.java
-C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\connection\Conexion.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Region.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\ExpedienteUsuario.java
-C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\poo_2_semana_5\ConexionMySQL.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Views\LoginUser.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\connection\Utils.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Pais.java
@@ -15,5 +13,4 @@ C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Carg
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\TelefonoColaborador.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Colaborador.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\CorreoColaborador.java
-C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Views\AddColaborador.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Controllers\ColaboradorDao.java

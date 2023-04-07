@@ -16,6 +16,15 @@ public class Comuna {
         this.region = region;
     }
 
+    public Comuna(int id, String nombreComuna) {
+        this.id = id;
+        this.nombreComuna = nombreComuna;
+    }
+    
+    public Comuna(int id) {
+        this.id = id;
+    }
+    
     public Comuna() {
     }
 

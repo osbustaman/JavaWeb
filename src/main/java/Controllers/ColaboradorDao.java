@@ -1,6 +1,8 @@
 package Controllers;
 
+import Models.Cargo;
 import Models.Colaborador;
+import Models.Comuna;
 import Models.Pais;
 import Models.Region;
 import connection.Utils;
@@ -182,4 +184,110 @@ public class ColaboradorDao {
             return lista;
         }
     }
+    
+    public List<Comuna> listarComunas() throws SQLException, ClassNotFoundException{
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+        
+        // Crear la sentencia SQL para insertar un huerto
+        String sqlSelect = "SELECT * FROM gp_comuna;";
+       
+        try (PreparedStatement psSelect = _conexion.prepareStatement(sqlSelect)) {
+
+            // Ejecutar la sentencia SQL
+            ResultSet rsSelect = psSelect.executeQuery();
+
+            // Recorrer los resultados y mostrarlos por consola
+            List<Comuna> lista = new ArrayList<>();
+            while (rsSelect.next()) {
+                Comuna comuna;
+                comuna = new Comuna(rsSelect.getInt("id"), rsSelect.getString("nombre_comuna"));
+                lista.add(comuna);
+            }
+            return lista;
+        }
+    }
+    
+    public List<Cargo> listarCargos() throws SQLException, ClassNotFoundException{
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+        
+        // Crear la sentencia SQL para insertar un huerto
+        String sqlSelect = "SELECT * FROM gp_cargo;";
+       
+        try (PreparedStatement psSelect = _conexion.prepareStatement(sqlSelect)) {
+
+            // Ejecutar la sentencia SQL
+            ResultSet rsSelect = psSelect.executeQuery();
+
+            // Recorrer los resultados y mostrarlos por consola
+            List<Cargo> lista = new ArrayList<>();
+            while (rsSelect.next()) {
+                Cargo cargo;
+                cargo = new Cargo(rsSelect.getInt("id"), rsSelect.getString("nombre_cargo"));
+                lista.add(cargo);
+            }
+            return lista;
+        }
+    }
+    
+    
+    public int insertarColaborador(Colaborador colaborador) throws SQLException, ClassNotFoundException{
+
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+
+        // Crear la sentencia SQL para insertar un huerto
+        String sql = "INSERT INTO gp_colaborador (rut, nombres, apellidos, direccion, pais_id, region_id, comuna_id, estado_civil, sexo, empresa_id, cargo_id, fecha_ingreso, password, perfil_id)"
+                   + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, MD5(?), ?);";
+
+        // Declarar una variable para almacenar el ID generado
+        int colaboradorId;
+
+        // Crear un PreparedStatement y especificar que se deben devolver las claves generadas
+        try (PreparedStatement ps = _conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Establecer los valores de los parámetros en la sentencia SQL
+            ps.setString(1, colaborador.getRut());
+            ps.setString(2, colaborador.getNombres());
+            ps.setString(3, colaborador.getApellidos());
+            ps.setString(4, colaborador.getDireccion());
+            ps.setInt(5, colaborador.getPais().getId());
+            ps.setInt(6, colaborador.getRegion().getId());
+            ps.setInt(7, colaborador.getComuna().getId());
+            ps.setString(8, colaborador.getEstadoCivil());
+            ps.setString(9, colaborador.getSexo());
+            ps.setInt(10, colaborador.getEmpresa().getId());
+            ps.setInt(11, colaborador.getCargo().getId());
+            ps.setString(12, colaborador.getFechaIngreso());
+            ps.setString(13, colaborador.getPassword());
+            ps.setInt(14, colaborador.getPerfil());
+            
+            // Ejecutar la sentencia SQL
+            ps.executeUpdate();
+
+            try ( // Obtener el ID generado
+                    ResultSet result = ps.getGeneratedKeys()) {
+                colaboradorId = -1;
+                if (result.next()) {
+                    colaboradorId = result.getInt(1);
+                }
+                // Cerrar el ResultSet
+            }
+        }
+
+        // Devolver el ID del huerto insertado
+        return colaboradorId;
+
+    }
+
 }

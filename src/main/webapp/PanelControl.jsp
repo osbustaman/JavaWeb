@@ -55,7 +55,7 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-users"></i> Colaborador <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="PanelControl?page=add_colaborador">Crear Colaborador</a></li>
+                      <li><a href="PanelControl?page=new_colaborador">Crear Colaborador</a></li>
                       <li><a href="PanelControl?page=list_colaborador">Listar Colaboradores</a></li>
                     </ul>
                   </li>

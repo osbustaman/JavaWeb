@@ -14,10 +14,13 @@ public class Colaborador {
     private Empresa empresa;
     private Cargo cargo;
     private String fechaIngreso;
+    private String password;
     private int perfil;
     private String tokenSesion;
+    private String pathColaborador;
+    private String imageColaborador;
 
-    public Colaborador(int id, String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, int perfil, String tokenSesion) {
+    public Colaborador(int id, String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, String password, int perfil, String tokenSesion, String pathColaborador, String imageColaborador) {
         this.id = id;
         this.rut = rut;
         this.nombres = nombres;
@@ -31,11 +34,14 @@ public class Colaborador {
         this.empresa = empresa;
         this.cargo = cargo;
         this.fechaIngreso = fechaIngreso;
+        this.password = password;
         this.perfil = perfil;
         this.tokenSesion = tokenSesion;
+        this.pathColaborador = pathColaborador;
+        this.imageColaborador = imageColaborador;
     }
 
-    public Colaborador(String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, int perfil, String tokenSesion) {
+    public Colaborador(String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, String password, int perfil, String tokenSesion, String pathColaborador, String imageColaborador) {
         this.rut = rut;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -48,11 +54,55 @@ public class Colaborador {
         this.empresa = empresa;
         this.cargo = cargo;
         this.fechaIngreso = fechaIngreso;
+        this.password = password;
         this.perfil = perfil;
         this.tokenSesion = tokenSesion;
+        this.pathColaborador = pathColaborador;
+        this.imageColaborador = imageColaborador;
     }
+    
+        public Colaborador(String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, String password, int perfil) {
+            this.rut = rut;
+            this.nombres = nombres;
+            this.apellidos = apellidos;
+            this.pais = pais;
+            this.region = region;
+            this.comuna = comuna;
+            this.direccion = direccion;
+            this.estadoCivil = estadoCivil;
+            this.sexo = sexo;
+            this.empresa = empresa;
+            this.cargo = cargo;
+            this.fechaIngreso = fechaIngreso;
+            this.password = password;
+            this.perfil = perfil;
+        }
 
     public Colaborador() {
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getPathColaborador() {
+        return pathColaborador;
+    }
+
+    public void setPathColaborador(String pathColaborador) {
+        this.pathColaborador = pathColaborador;
+    }
+
+    public String getImageColaborador() {
+        return imageColaborador;
+    }
+
+    public void setImageColaborador(String imageColaborador) {
+        this.imageColaborador = imageColaborador;
     }
 
     public String getNombres() {
