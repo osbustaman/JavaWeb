@@ -35,12 +35,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
 
-/**
- *
- * @author osbustaman
- */
+
 @WebServlet(name = "PanelControl", urlPatterns = {"/PanelControl"})
-@MultipartConfig
 public class PanelControl extends HttpServlet {
     
     RequestDispatcher rd;
