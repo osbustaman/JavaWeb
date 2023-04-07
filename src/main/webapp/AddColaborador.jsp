@@ -278,7 +278,7 @@
                                 </label>
                                 <div class="col-md-6 col-sm-6 ">
                                     <br>
-                                    <input type="file" id="imagen" name="imagen" class="requieres" accept="image/png,image/jpeg" multiple="multiple">
+                                    <input type="file" id="imagen" name="imagen" class="requieres"  enctype="multipart/form-data" accept="image/png,image/jpeg" multiple="multiple">
                                 </div>
                             </div>
                                     
@@ -332,6 +332,7 @@
       
         $(document).ready(function(){
             $("#save-colaborador").click(function(){
+               // console.log(validar_form("#frm-add-colaborador"));
                 if(validar_form("#frm-add-colaborador")){
                     new PNotify({
                         title: 'Error!',
@@ -339,6 +340,7 @@
                         type: 'error',
                         styling: 'bootstrap3'
                     });
+                    return false;
                 }else{
                     $("#frm-add-colaborador").submit();
                 }
@@ -369,7 +371,7 @@
                                         type: 'error',
                                         styling: 'bootstrap3'
                                     });
-                                    return false;
+                                    is_error = true;
                                 }
                             }
                             
@@ -383,7 +385,7 @@
                                             type: 'error',
                                             styling: 'bootstrap3'
                                         });
-                                        return false;
+                                        is_error = true;
                                     }
                                 }
                             }

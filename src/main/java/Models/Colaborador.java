@@ -61,22 +61,23 @@ public class Colaborador {
         this.imageColaborador = imageColaborador;
     }
     
-        public Colaborador(String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, String password, int perfil) {
-            this.rut = rut;
-            this.nombres = nombres;
-            this.apellidos = apellidos;
-            this.pais = pais;
-            this.region = region;
-            this.comuna = comuna;
-            this.direccion = direccion;
-            this.estadoCivil = estadoCivil;
-            this.sexo = sexo;
-            this.empresa = empresa;
-            this.cargo = cargo;
-            this.fechaIngreso = fechaIngreso;
-            this.password = password;
-            this.perfil = perfil;
-        }
+    public Colaborador(String rut, String nombres, String apellidos, Pais pais, Region region, Comuna comuna, String direccion, String estadoCivil, String sexo, Empresa empresa, Cargo cargo, String fechaIngreso, String password, int perfil, String pathColaborador) {
+        this.rut = rut;
+        this.nombres = nombres;
+        this.apellidos = apellidos;
+        this.pais = pais;
+        this.region = region;
+        this.comuna = comuna;
+        this.direccion = direccion;
+        this.estadoCivil = estadoCivil;
+        this.sexo = sexo;
+        this.empresa = empresa;
+        this.cargo = cargo;
+        this.fechaIngreso = fechaIngreso;
+        this.password = password;
+        this.perfil = perfil;
+        this.pathColaborador = pathColaborador;
+    }
 
     public Colaborador() {
     }

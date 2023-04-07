@@ -18,7 +18,11 @@
     <link href="static/vendors/nprogress/nprogress.css" rel="stylesheet">
     <!-- jQuery custom content scroller -->
     <link href="static/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
-
+    <link href="static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="static/build/css/custom.min.css" rel="stylesheet">
   </head>
@@ -112,9 +116,38 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                      
-                      
-                      
+                   <table id="datatable-keytable" class="table table-striped table-bordered" style="width:100%">
+                            <thead>
+                              <tr>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Office</th>
+                                <th>Age</th>
+                                <th>Start date</th>
+                                <th>Salary</th>
+                              </tr>
+                            </thead>
+
+
+                            <tbody>
+                              <tr>
+                                <td>Tiger Nixon</td>
+                                <td>System Architect</td>
+                                <td>Edinburgh</td>
+                                <td>61</td>
+                                <td>2011/04/25</td>
+                                <td>$320,800</td>
+                              </tr>
+                              <tr>
+                                <td>Garrett Winters</td>
+                                <td>Accountant</td>
+                                <td>Tokyo</td>
+                                <td>63</td>
+                                <td>2011/07/25</td>
+                                <td>$170,750</td>
+                              </tr>   
+                      </tbody>
+                </table>
                       
                       
                       
@@ -147,7 +180,21 @@
     <script src="static/vendors/nprogress/nprogress.js"></script>
     <!-- jQuery custom content scroller -->
     <script src="static/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
-
+    <script src="static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="static/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="static/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="static/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="static/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="static/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="static/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="static/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="static/vendors/pdfmake/build/vfs_fonts.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="static/build/js/custom.min.js"></script>
   </body>

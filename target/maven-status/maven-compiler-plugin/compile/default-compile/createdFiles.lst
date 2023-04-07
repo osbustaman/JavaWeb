@@ -6,7 +6,6 @@ Models\ExpedienteUsuario.class
 Main.class
 Models\CorreoColaborador.class
 Models\Region.class
-Views\ListColaborador.class
 connection\ConexionMySQL.class
 Controllers\ColaboradorDao.class
 Views\PanelControl.class

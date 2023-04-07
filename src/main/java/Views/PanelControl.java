@@ -11,29 +11,40 @@ import Models.Comuna;
 import Models.Empresa;
 import Models.Pais;
 import Models.Region;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 /**
  *
  * @author osbustaman
  */
 @WebServlet(name = "PanelControl", urlPatterns = {"/PanelControl"})
+@MultipartConfig
 public class PanelControl extends HttpServlet {
     
     RequestDispatcher rd;
+    static final int CHUNK_SIZE = 1024*4;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
@@ -127,6 +138,25 @@ public class PanelControl extends HttpServlet {
             
             int perfil = Integer.parseInt(request.getParameter("perfil"));
             
+            // Obtener el objeto ServletContext
+            ServletContext context = getServletContext();
+
+            // Obtener la ruta del directorio raíz
+            String rootPath = context.getRealPath("/");
+
+            // Imprimir la ruta del directorio raíz
+            System.out.println("La ruta del directorio raíz es: " + rootPath);
+            
+            String rutaDirectorio = rootPath+"/"+rut+"/";
+            File directorio = new File(rutaDirectorio);
+            if (!directorio.exists()) {
+                if (directorio.mkdirs()) {
+                        System.out.println("Directorio creado con éxito!");
+                }
+            } else {
+                System.out.println("El directorio ya existe.");
+            }
+            
             Colaborador colaborador = new Colaborador(rut
                     , nombres
                     , apellidos
@@ -141,10 +171,27 @@ public class PanelControl extends HttpServlet {
                     , fechaIngreso
                     , password
                     , perfil
+                    , rutaDirectorio
             );
-      
+            
+            String imageColaborador = request.getParameter("imagen");
+            Part parteDelArchivo = request.getPart("imagen");
+            
+            InputStream fileContent = parteDelArchivo.getInputStream();
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(new File(rutaDirectorio)));
+            byte[] chunk = new byte[CHUNK_SIZE];
+            int bytesLeidos = 0;
+            
+            while((bytesLeidos = fileContent.read(chunk)) > 0){
+                os.write(chunk, 0, bytesLeidos);
+            }
+            os.close();
+            
             System.out.println(colaborador.getPassword());
             colaboradorDao.insertarColaborador(colaborador);
+            
+            response.sendRedirect("PanelControl?page=new_colaborador");
+       
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(PanelControl.class.getName()).log(Level.SEVERE, null, ex);
         }
