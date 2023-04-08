@@ -284,6 +284,19 @@
                                         </div>
                                     </div>
 
+                                    
+
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button type="button" class="btn btn-primary" type="reset">Limpiar Formulario</button>
+                                            <button type="button" id="save-colaborador" class="btn btn-success">Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                <form>
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">Imagen <span class="required">*</span>
                                         </label>
@@ -301,10 +314,6 @@
                                         </div>
                                     </div>
                                 </form>
-                            </div>
-                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                              Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
-                                  booth letterpress, commodo enim craft beer mlkshk aliquip
                             </div>
                         </div>
                       
