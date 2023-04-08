@@ -65,8 +65,8 @@
                 <ul class="nav side-menu">
                   <li class="active"><a><i class="fa fa-users"></i> Colaborador <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display: block;">
-                        <li class="current-page"><a href="PanelControl?page=new_colaborador">Crear Colaborador</a></li>
-                        <li><a href="PanelControl?page=list_colaborador">Listar Colaboradores</a></li>
+                        <li class="current-page"><a href="PanelControl?page=new_colaborador&response=none">Crear Colaborador</a></li>
+                        <li><a href="PanelControl?page=list_colaborador&response=none">Listar Colaboradores</a></li>
                     </ul>
                   </li>
                   
@@ -122,174 +122,195 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                        <br />
-                        <form id="frm-add-colaborador" action="PanelControl?page=add_colaborador" method="POST" data-parsley-validate class="form-horizontal form-label-left" >
+                      
+                        <ul class="nav nav-tabs bar_tabs" id="myTab" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Crear/Editar Colaborador</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Documentación Colaborador</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="myTabContent">
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                              <br />
+                                <form id="frm-add-colaborador" action="PanelControl?page=add_colaborador" method="POST" data-parsley-validate class="form-horizontal form-label-left" >
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Rut <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <input type="text" id="rut" name="rut" required="required" class="form-control requieres">
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Nombres <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <input type="text" id="nombres" name="nombres" required="required" class="form-control requieres">
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Apellidos <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <input type="text" id="apellidos" name="apellidos" required="required" class="form-control requieres">
-                                </div>
-                            </div>
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Dirección <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <input type="text" id="direccion" name="direccion" required="required" class="form-control requieres">
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Rut <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="rut" name="rut" required="required" class="form-control requieres">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Nombres <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="nombres" name="nombres" required="required" class="form-control requieres">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Apellidos <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="apellidos" name="apellidos" required="required" class="form-control requieres">
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Dirección <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="direccion" name="direccion" required="required" class="form-control requieres">
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">País <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <select id="pais" name="pais" class="form-control requieres" required="">
-                                        <option value="">Selccione..</option>
-                                        <%
-                                         List<Pais> paises=(List<Pais>)request.getAttribute("lstPaises");
-                                        for(Pais pais:paises){%>
-                                        <option value="<%= pais.getId() %>"><%= pais.getNombrePais() %></option>
-                                        <%}%>
-                                    </select>
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">País <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="pais" name="pais" class="form-control requieres" required="">
+                                                <option value="">Selccione..</option>
+                                                <%
+                                                 List<Pais> paises=(List<Pais>)request.getAttribute("lstPaises");
+                                                for(Pais pais:paises){%>
+                                                <option value="<%= pais.getId() %>"><%= pais.getNombrePais() %></option>
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Región <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <select id="region" name="region" class="form-control requieres" required="">
-                                        <option value="">Selccione..</option>
-                                        <%
-                                        List<Region> regiones=(List<Region>)request.getAttribute("lstRegiones");
-                                        for(Region region:regiones){%>
-                                        <option value="<%= region.getId() %>"><%= region.getNombreRegion() %></option>
-                                        <%}%>
-                                    </select>
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Región <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="region" name="region" class="form-control requieres" required="">
+                                                <option value="">Selccione..</option>
+                                                <%
+                                                List<Region> regiones=(List<Region>)request.getAttribute("lstRegiones");
+                                                for(Region region:regiones){%>
+                                                <option value="<%= region.getId() %>"><%= region.getNombreRegion() %></option>
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Comuna <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <select id="comuna" name="comuna" class="form-control requieres" required="">
-                                        <option value="">Selccione..</option>
-                                        <%
-                                        List<Comuna> comunas=(List<Comuna>)request.getAttribute("lstComunas");
-                                        for(Comuna comuna:comunas){%>
-                                        <option value="<%= comuna.getId() %>"><%= comuna.getNombreComuna() %></option>
-                                        <%}%>
-                                    </select>
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Comuna <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="comuna" name="comuna" class="form-control requieres" required="">
+                                                <option value="">Selccione..</option>
+                                                <%
+                                                List<Comuna> comunas=(List<Comuna>)request.getAttribute("lstComunas");
+                                                for(Comuna comuna:comunas){%>
+                                                <option value="<%= comuna.getId() %>"><%= comuna.getNombreComuna() %></option>
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Estado civil <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <select id="estado_civil" name="estado_civil" class="form-control requieres" required="">
-                                        <option value="">Selccione..</option>
-                                        <option value="S">Soltero</option>
-                                        <option value="C">Casado</option>
-                                    </select>
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Estado civil <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="estado_civil" name="estado_civil" class="form-control requieres" required="">
+                                                <option value="">Selccione..</option>
+                                                <option value="S">Solter@</option>
+                                                <option value="C">Casad@</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Sexo <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <select id="sexo" name="sexo" class="form-control requieres" required="">
-                                        <option value="">Selccione..</option>
-                                        <option value="M">Masculino</option>
-                                        <option value="F">Femenino</option>
-                                    </select>
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Sexo <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="sexo" name="sexo" class="form-control requieres" required="">
+                                                <option value="">Selccione..</option>
+                                                <option value="M">Masculino</option>
+                                                <option value="F">Femenino</option>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Cargos <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <select id="cargo" name="cargo" class="form-control requieres" required="">
-                                        <option value="">Selccione..</option>
-                                        <%
-                                        List<Cargo> cargos =(List<Cargo>)request.getAttribute("lstCargos");
-                                        for(Cargo cargo:cargos){%>
-                                        <option value="<%= cargo.getId() %>"><%= cargo.getNombreCargo() %></option>
-                                        <%}%>
-                                    </select>
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Cargos <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="cargo" name="cargo" class="form-control requieres" required="">
+                                                <option value="">Selccione..</option>
+                                                <%
+                                                List<Cargo> cargos =(List<Cargo>)request.getAttribute("lstCargos");
+                                                for(Cargo cargo:cargos){%>
+                                                <option value="<%= cargo.getId() %>"><%= cargo.getNombreCargo() %></option>
+                                                <%}%>
+                                            </select>
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Fecha de ingreso <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <input id="fecha_ingreso" name="fecha_ingreso" autocomplete="off" class="date-picker form-control requieres" placeholder="dd-mm-yyyy" type="text" required="required" type="text" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
-                                        <script>
-                                        function timeFunctionLong(input) {
-                                            setTimeout(function() {
-                                                    input.type = 'text';
-                                            }, 60000);
-                                        }
-                                        </script>
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Fecha de ingreso <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input id="fecha_ingreso" name="fecha_ingreso" autocomplete="off" class="date-picker form-control requieres" placeholder="dd-mm-yyyy" type="text" required="required" type="text" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                                                <script>
+                                                function timeFunctionLong(input) {
+                                                    setTimeout(function() {
+                                                            input.type = 'text';
+                                                    }, 60000);
+                                                }
+                                                </script>
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Contraseña <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <input type="password" id="password" name="password" required="required" autocomplete="off" class="form-control requieres">
-                                </div>
-                            </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Contraseña <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="password" id="password" name="password" required="required" autocomplete="off" class="form-control requieres">
+                                        </div>
+                                    </div>
 
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Perfil <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <select id="perfil" name="perfil" class="form-control requieres" required="">
-                                        <option value="">Selccione..</option>
-                                        <option value="1">Administrador</option>
-                                        <option value="2">Colaborador</option>
-                                    </select>
-                                </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Perfil <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="perfil" name="perfil" class="form-control requieres" required="">
+                                                <option value="">Selccione..</option>
+                                                <option value="1">Administrador</option>
+                                                <option value="2">Colaborador</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Imagen <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <br>
+                                            <input type="file" id="imagen" name="imagen" class="requieres"  enctype="multipart/form-data" accept="image/png,image/jpeg" multiple="multiple">
+                                        </div>
+                                    </div>
+
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button type="button" class="btn btn-primary" type="reset">Limpiar Formulario</button>
+                                            <button type="button" id="save-colaborador" class="btn btn-success">Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                            
-                            <div class="item form-group">
-                                <label class="col-form-label col-md-3 col-sm-3 label-align">Imagen <span class="required">*</span>
-                                </label>
-                                <div class="col-md-6 col-sm-6 ">
-                                    <br>
-                                    <input type="file" id="imagen" name="imagen" class="requieres"  enctype="multipart/form-data" accept="image/png,image/jpeg" multiple="multiple">
-                                </div>
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                              Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui photo
+                                  booth letterpress, commodo enim craft beer mlkshk aliquip
                             </div>
-                                    
-                            <div class="ln_solid"></div>
-                            <div class="item form-group">
-                                <div class="col-md-6 col-sm-6 offset-md-3">
-                                    <button type="button" class="btn btn-primary" type="reset">Limpiar Formulario</button>
-                                    <button type="button" id="save-colaborador" class="btn btn-success">Guardar</button>
-                                </div>
-                            </div>
-                        </form>
+                        </div>
+                      
+                      
+                      
+                        
                     </div>
                 </div>
               </div>
@@ -331,6 +352,7 @@
     <script>
       
         $(document).ready(function(){
+                
             $("#save-colaborador").click(function(){
                // console.log(validar_form("#frm-add-colaborador"));
                 if(validar_form("#frm-add-colaborador")){

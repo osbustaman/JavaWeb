@@ -56,6 +56,7 @@ public class PanelControl extends HttpServlet {
         }
         
         String accion = request.getParameter("page");
+        String _response = request.getParameter("response");
         
         if(null == accion){
             response.sendRedirect("PanelControl.jsp");
@@ -65,16 +66,32 @@ public class PanelControl extends HttpServlet {
                 
                 ColaboradorDao colaboradorDao = new ColaboradorDao();
                 request.setAttribute("lstPaises", colaboradorDao.listarPaises());
-                
                 request.setAttribute("lstRegiones", colaboradorDao.listarRegiones());
-                
                 request.setAttribute("lstComunas", colaboradorDao.listarComunas());
-                
                 request.setAttribute("lstCargos", colaboradorDao.listarCargos());
+                
+                switch (_response) {
+                    case "error":
+                        request.setAttribute("isMensaje", true);
+                        request.setAttribute("mensaje", "Esto es un error");
+                        request.setAttribute("tagMensaje", "error");
+                        break;
+                    case "success":
+                        request.setAttribute("isMensaje", true);
+                        request.setAttribute("mensaje", "Esto es un mensaje de exito");
+                        request.setAttribute("tagMensaje", "success");
+                        break;
+                    default:
+                        request.setAttribute("isMensaje", false);
+                        request.setAttribute("mensaje", "");
+                        request.setAttribute("tagMensaje", "");
+                        break;
+                }
                 
                 rd = request.getRequestDispatcher("AddColaborador.jsp");
                 rd.forward(request, response);
                 break;
+
             case "list_colaborador":
                 request.setAttribute("pagina", "ListColaborador.jsp");
 
@@ -138,12 +155,12 @@ public class PanelControl extends HttpServlet {
             ServletContext context = getServletContext();
 
             // Obtener la ruta del directorio raíz
-            String rootPath = context.getRealPath("/");
+            String rootPath = context.getRealPath("\\");
 
             // Imprimir la ruta del directorio raíz
             System.out.println("La ruta del directorio raíz es: " + rootPath);
             
-            String rutaDirectorio = rootPath+"/"+rut+"/";
+            String rutaDirectorio = rootPath+"\\"+rut+"\\";
             File directorio = new File(rutaDirectorio);
             if (!directorio.exists()) {
                 if (directorio.mkdirs()) {
@@ -153,7 +170,8 @@ public class PanelControl extends HttpServlet {
                 System.out.println("El directorio ya existe.");
             }
             
-            Colaborador colaborador = new Colaborador(rut
+            Colaborador colaborador = new Colaborador(
+                    rut
                     , nombres
                     , apellidos
                     , pais
@@ -170,26 +188,18 @@ public class PanelControl extends HttpServlet {
                     , rutaDirectorio
             );
             
-            String imageColaborador = request.getParameter("imagen");
-            Part parteDelArchivo = request.getPart("imagen");
-            
-            InputStream fileContent = parteDelArchivo.getInputStream();
-            OutputStream os = new BufferedOutputStream(new FileOutputStream(new File(rutaDirectorio)));
-            byte[] chunk = new byte[CHUNK_SIZE];
-            int bytesLeidos = 0;
-            
-            while((bytesLeidos = fileContent.read(chunk)) > 0){
-                os.write(chunk, 0, bytesLeidos);
-            }
-            os.close();
+            //String imageColaborador = request.getParameter("imagen");
             
             System.out.println(colaborador.getPassword());
             colaboradorDao.insertarColaborador(colaborador);
             
-            response.sendRedirect("PanelControl?page=new_colaborador");
+            response.sendRedirect("PanelControl?page=new_colaborador&response=success");
        
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(PanelControl.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(" --------- " + ex.hashCode());
+            
+            response.sendRedirect("PanelControl?page=new_colaborador&response=error");
         }
     }
 }

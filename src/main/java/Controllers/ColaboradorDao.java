@@ -247,7 +247,7 @@ public class ColaboradorDao {
         Connection _conexion = con.conector();
 
         // Crear la sentencia SQL para insertar un huerto
-        String sql = "INSERT INTO gp_colaborador (rut, nombres, apellidos, direccion, pais_id, region_id, comuna_id, estado_civil, sexo, empresa_id, cargo_id, fecha_ingreso, password, perfil_id, patch_colaborador)"
+        String sql = "INSERT INTO gp_colaborador (rut, nombres, apellidos, direccion, pais_id, region_id, comuna_id, estado_civil, sexo, empresa_id, cargo_id, fecha_ingreso, password, perfil_id, path_colaborador)"
                    + " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, MD5(?), ?, ?);";
 
         // Declarar una variable para almacenar el ID generado
