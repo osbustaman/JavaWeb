@@ -14,7 +14,7 @@ public class ConexionMySQL {
     private static final String pass="";
     private static final String url="jdbc:mysql://localhost:3306/bd_gestion_personas?zeroDateTimeBehavior=CONVERT_TO_NULL";
     
-    public Connection conector() throws ClassNotFoundException {
+    public Connection conector() throws ClassNotFoundException, SQLException {
         // Reseteamos a null la conexion a la bd
         con=null;
         try{
@@ -26,10 +26,10 @@ public class ConexionMySQL {
                 System.out.println("Conexion establecida");
             }
         }
-        // Si la conexion NO fue exitosa mostramos un mensaje de error
+        // Si la conexion NO fue exitosa lanzamos una excepción SQLException
         catch (SQLException e){
             System.out.println("Error de conexion" + e);
-            return con;
+            throw e;
         }
         return con;
     }

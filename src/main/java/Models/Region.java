@@ -25,6 +25,9 @@ public class Region {
         this.id = id;
     }
 
+    public Region() {
+    }
+
     public int getId() {
         return id;
     }

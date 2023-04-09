@@ -1,18 +1,9 @@
 package connection;
 
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-
-import java.security.MessageDigest;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
-import javax.crypto.spec.SecretKeySpec;
-import connection.ConexionMySQL;
+
 
 public class Utils {
     ConexionMySQL con;
@@ -38,4 +29,5 @@ public class Utils {
         }
         return key;
     }
+    
 }

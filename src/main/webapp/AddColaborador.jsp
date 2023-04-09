@@ -1,3 +1,4 @@
+<%@page import="Models.ExpedienteUsuario"%>
 <%@page import="Models.Cargo"%>
 <%@page import="Models.Comuna"%>
 <%@page import="Models.Region"%>
@@ -24,10 +25,20 @@
     <!-- jQuery custom content scroller -->
     <link href="static/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css" rel="stylesheet"/>
     
+    <!-- Datatables -->
+    <link href="static/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="static/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    
     <!-- PNotify -->
     <link href="static/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
     <link href="static/vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
     <link href="static/vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
+    
+    <link href="static/vendors/jquery.confirm/dist/jquery-confirm.min.css" rel="stylesheet">
+    
 
     <!-- Custom Theme Style -->
     <link href="static/build/css/custom.min.css" rel="stylesheet">
@@ -47,7 +58,7 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="<% out.println(session.getAttribute("imagenColaborador")); %>" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Bienvenid@,</span>
@@ -65,8 +76,8 @@
                 <ul class="nav side-menu">
                   <li class="active"><a><i class="fa fa-users"></i> Colaborador <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display: block;">
-                        <li class="current-page"><a href="PanelControl?page=new_colaborador&response=none">Crear Colaborador</a></li>
-                        <li><a href="PanelControl?page=list_colaborador&response=none">Listar Colaboradores</a></li>
+                        <li class="current-page"><a href="PanelControl?page=new_colaborador">Crear Colaborador</a></li>
+                        <li><a href="PanelControl?page=list_colaborador">Listar Colaboradores</a></li>
                     </ul>
                   </li>
                   
@@ -90,7 +101,7 @@
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="images/img.jpg" alt=""><% out.println(session.getAttribute("nombre") + " " + session.getAttribute("apellidos")); %>
+                      <img src="<% out.println(session.getAttribute("imagenColaborador")); %>" alt=""><% out.println(session.getAttribute("nombre") + " " + session.getAttribute("apellidos")); %>
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="LoginUser?accion=cerrarSesion"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesión</a>
@@ -127,41 +138,49 @@
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Crear/Editar Colaborador</a>
                             </li>
+                            <%
+                            if(request.getAttribute("loQueHace") == "Editar"){
+                            %>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Documentación Colaborador</a>
                             </li>
+                            <%
+                            }
+                            %>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                               <br />
-                                <form id="frm-add-colaborador" action="PanelControl?page=add_colaborador" method="POST" data-parsley-validate class="form-horizontal form-label-left" >
-
+                                <form id="frm-add-colaborador" action="PanelControl?<% out.println(request.getQueryString()); %>" method="POST" data-parsley-validate class="form-horizontal form-label-left" >
+                                    
+                                    <input type="hidden" id="colaborador_id" name="colaborador_id" value="<% out.println(request.getParameter("id")); %>">
+                                    
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">Rut <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="rut" name="rut" required="required" class="form-control requieres">
+                                            <input type="text" id="rut" name="rut" required="required" class="form-control requieres" value="<% if(request.getAttribute("rut")!=null){out.println((String)request.getAttribute("rut"));} %>">
                                         </div>
                                     </div>
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">Nombres <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="nombres" name="nombres" required="required" class="form-control requieres">
+                                            <input type="text" id="nombres" name="nombres" required="required" class="form-control requieres" value="<% if(request.getAttribute("nombres")!=null){out.println((String)request.getAttribute("nombres"));} %>">
                                         </div>
                                     </div>
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">Apellidos <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="apellidos" name="apellidos" required="required" class="form-control requieres">
+                                            <input type="text" id="apellidos" name="apellidos" required="required" class="form-control requieres" value="<% if(request.getAttribute("apellidos")!=null){out.println((String)request.getAttribute("apellidos"));} %>">
                                         </div>
                                     </div>
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">Dirección <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="text" id="direccion" name="direccion" required="required" class="form-control requieres">
+                                            <input type="text" id="direccion" name="direccion" required="required" class="form-control requieres" value="<% if(request.getAttribute("direccion")!=null){out.println((String)request.getAttribute("direccion"));} %>">
                                         </div>
                                     </div>
 
@@ -172,9 +191,14 @@
                                             <select id="pais" name="pais" class="form-control requieres" required="">
                                                 <option value="">Selccione..</option>
                                                 <%
-                                                 List<Pais> paises=(List<Pais>)request.getAttribute("lstPaises");
-                                                for(Pais pais:paises){%>
-                                                <option value="<%= pais.getId() %>"><%= pais.getNombrePais() %></option>
+                                                List<Pais> paises=(List<Pais>)request.getAttribute("lstPaises");
+                                                for(Pais pais:paises){
+                                                    String isSelected = "";
+                                                    if(request.getAttribute("pais") != null && pais.getId() == (int)request.getAttribute("pais")){
+                                                        isSelected = "selected";
+                                                    }
+                                                %>
+                                                <option value="<%= pais.getId() %>" <%= isSelected %>><%= pais.getNombrePais() %></option>
                                                 <%}%>
                                             </select>
                                         </div>
@@ -188,8 +212,13 @@
                                                 <option value="">Selccione..</option>
                                                 <%
                                                 List<Region> regiones=(List<Region>)request.getAttribute("lstRegiones");
-                                                for(Region region:regiones){%>
-                                                <option value="<%= region.getId() %>"><%= region.getNombreRegion() %></option>
+                                                for(Region region:regiones){
+                                                    String isSelected = "";
+                                                    if(request.getAttribute("region") != null && region.getId() == (int)request.getAttribute("region")){
+                                                        isSelected = "selected";
+                                                    }
+                                                %>
+                                                <option value="<%= region.getId() %>" <%= isSelected %>><%= region.getNombreRegion() %></option>
                                                 <%}%>
                                             </select>
                                         </div>
@@ -202,10 +231,17 @@
                                             <select id="comuna" name="comuna" class="form-control requieres" required="">
                                                 <option value="">Selccione..</option>
                                                 <%
-                                                List<Comuna> comunas=(List<Comuna>)request.getAttribute("lstComunas");
-                                                for(Comuna comuna:comunas){%>
-                                                <option value="<%= comuna.getId() %>"><%= comuna.getNombreComuna() %></option>
-                                                <%}%>
+                                                List<Comuna> comunas = (List<Comuna>) request.getAttribute("lstComunas");
+                                                for (Comuna comuna : comunas) {
+                                                    String isSelected = "";
+                                                    if(request.getAttribute("comuna") != null && comuna.getId() == (int)request.getAttribute("comuna")){
+                                                        isSelected = "selected";
+                                                    }
+                                                %>
+                                                    <option value="<%= comuna.getId() %>" <%= isSelected %>><%= comuna.getNombreComuna() %></option>
+                                                <%
+                                                    }
+                                                %>
                                             </select>
                                         </div>
                                     </div>
@@ -216,9 +252,10 @@
                                         <div class="col-md-6 col-sm-6 ">
                                             <select id="estado_civil" name="estado_civil" class="form-control requieres" required="">
                                                 <option value="">Selccione..</option>
-                                                <option value="S">Solter@</option>
-                                                <option value="C">Casad@</option>
+                                                <option value="S" <% if ("S".equals(request.getAttribute("estado_civil"))) { %>selected<% } %>>Solter@</option>
+                                                <option value="C" <% if ("C".equals(request.getAttribute("estado_civil"))) { %>selected<% } %>>Casad@</option>
                                             </select>
+
                                         </div>
                                     </div>
 
@@ -228,9 +265,10 @@
                                         <div class="col-md-6 col-sm-6 ">
                                             <select id="sexo" name="sexo" class="form-control requieres" required="">
                                                 <option value="">Selccione..</option>
-                                                <option value="M">Masculino</option>
-                                                <option value="F">Femenino</option>
-                                            </select>
+                                                <option value="M" <% if("M".equals(request.getAttribute("sexo"))) { out.print("selected"); } %>>Masculino</option>
+                                                <option value="F" <% if("F".equals(request.getAttribute("sexo"))) { out.print("selected"); } %>>Femenino</option>
+                                              </select>
+
                                         </div>
                                     </div>
 
@@ -242,8 +280,13 @@
                                                 <option value="">Selccione..</option>
                                                 <%
                                                 List<Cargo> cargos =(List<Cargo>)request.getAttribute("lstCargos");
-                                                for(Cargo cargo:cargos){%>
-                                                <option value="<%= cargo.getId() %>"><%= cargo.getNombreCargo() %></option>
+                                                for(Cargo cargo:cargos){
+                                                    String isSelected = "";
+                                                    if(request.getAttribute("cargo") != null && cargo.getId() == (int)request.getAttribute("cargo")){
+                                                        isSelected = "selected";
+                                                    }
+                                                %>
+                                                <option value="<%= cargo.getId() %>" <%= isSelected %>><%= cargo.getNombreCargo() %></option>
                                                 <%}%>
                                             </select>
                                         </div>
@@ -253,8 +296,8 @@
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">Fecha de ingreso <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input id="fecha_ingreso" name="fecha_ingreso" autocomplete="off" class="date-picker form-control requieres" placeholder="dd-mm-yyyy" type="text" required="required" type="text" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
-                                                <script>
+                                            <input id="fecha_ingreso" name="fecha_ingreso" autocomplete="off" class="date-picker form-control requieres" value="<% if(request.getAttribute("fecha_ingreso")!=null){out.println((String)request.getAttribute("fecha_ingreso"));} %>" placeholder="yyyy-mm-dd" type="text" required="required" type="text" onfocus="this.type='date'" onmouseover="this.type='date'" onclick="this.type='date'" onblur="this.type='text'" onmouseout="timeFunctionLong(this)">
+                                            <script>
                                                 function timeFunctionLong(input) {
                                                     setTimeout(function() {
                                                             input.type = 'text';
@@ -268,7 +311,7 @@
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">Contraseña <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
-                                            <input type="password" id="password" name="password" required="required" autocomplete="off" class="form-control requieres">
+                                            <input type="password" id="password" name="password" required="required" autocomplete="off" class="form-control requieres" value="<% if(request.getAttribute("password")!=null){out.println((String)request.getAttribute("password"));} %>">
                                         </div>
                                     </div>
 
@@ -277,14 +320,13 @@
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
                                             <select id="perfil" name="perfil" class="form-control requieres" required="">
-                                                <option value="">Selccione..</option>
-                                                <option value="1">Administrador</option>
-                                                <option value="2">Colaborador</option>
+                                                <option value="">Seleccione..</option>
+                                                <option value="1" <% if (request.getAttribute("perfil") != null && (int) request.getAttribute("perfil") == 1) { %>selected="selected"<% } %>>Administrador</option>
+                                                <option value="2" <% if (request.getAttribute("perfil") != null && (int) request.getAttribute("perfil") == 2) { %>selected="selected"<% } %>>Colaborador</option>
                                             </select>
+
                                         </div>
                                     </div>
-
-                                    
 
                                     <div class="ln_solid"></div>
                                     <div class="item form-group">
@@ -295,31 +337,81 @@
                                     </div>
                                 </form>
                             </div>
+                            
+                            <%
+                            if(request.getAttribute("loQueHace") == "Editar"){
+                            %>                
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                                <form>
+                                <form id="frm" name="frm" method="post" action="PanelControl?page=carga_masiva&id=<% out.println(request.getParameter("id")); %>" enctype="multipart/form-data">
+                                    <input type="hidden" id="nombre_completo" name="nombre_completo">
+                                    <input type="hidden" id="_rut" name="_rut">
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Tipo archivo <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="tipo_archivo" name="tipo_archivo" class="form-control requieres" required="">
+                                                <option value="">Seleccione..</option>
+                                                <option value="FP" >Foto de perfil </option>
+                                                <option value="OT" >Otros</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Nombre imagen <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="nombre_imagen" name="nombre_imagen" required="required" autocomplete="off" class="form-control requieres">
+                                        </div>
+                                    </div>
                                     <div class="item form-group">
                                         <label class="col-form-label col-md-3 col-sm-3 label-align">Imagen <span class="required">*</span>
                                         </label>
                                         <div class="col-md-6 col-sm-6 ">
                                             <br>
-                                            <input type="file" id="imagen" name="imagen" class="requieres"  enctype="multipart/form-data" accept="image/png,image/jpeg" multiple="multiple">
+                                            <input type="file" id="upload-file" name="upload-file" class="requieres" multiple="multiple">
                                         </div>
                                     </div>
 
                                     <div class="ln_solid"></div>
                                     <div class="item form-group">
                                         <div class="col-md-6 col-sm-6 offset-md-3">
-                                            <button type="button" class="btn btn-primary" type="reset">Limpiar Formulario</button>
-                                            <button type="button" id="save-colaborador" class="btn btn-success">Guardar</button>
+                                            <button type="button" id="save-documento" class="btn btn-success">Guardar</button>
                                         </div>
                                     </div>
                                 </form>
+                                
+                                <table id="datatable-keytable" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                          <tr>
+                                            <th>ID</th>
+                                            <th>NOMBRE ARCHIVO</th>
+                                            <th>ACCION</th>
+                                          </tr>
+                                        </thead>
+                                        <%
+                                        List<ExpedienteUsuario> expedienteUsuarios=(List<ExpedienteUsuario>)request.getAttribute("lstExpedientes");
+                                        for(ExpedienteUsuario expedienteUsuario:expedienteUsuarios){
+                                        %>
+                                        <tbody>
+                                            <tr>
+                                                <td><%= expedienteUsuario.getId() %></td>
+                                                <td><%= expedienteUsuario.getNombreArchivo() %></td>
+                                                <td>
+                                                    <a href="<%= expedienteUsuario.getPath()%>" target="_blank" type="button" id="descargar" class="btn btn-success" onclick="">Descargar <i class="fa fa-cloud-download"></i></a>
+                                                    <button type="button" id="borrar" class="btn btn-danger" onclick="">Borrar <i class="fa fa-trash"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                        <%
+                                        }
+                                        %>
+                                  </table>
                             </div>
+                            <%
+                            }
+                            %>
                         </div>
-                      
-                      
-                      
-                        
                     </div>
                 </div>
               </div>
@@ -350,10 +442,31 @@
     <!-- jQuery custom content scroller -->
     <script src="static/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js"></script>
     
+
+    
     <!-- PNotify -->
     <script src="static/vendors/pnotify/dist/pnotify.js"></script>
     <script src="static/vendors/pnotify/dist/pnotify.buttons.js"></script>
     <script src="static/vendors/pnotify/dist/pnotify.nonblock.js"></script>
+    
+            <!-- Datatables -->
+    <script src="static/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="static/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="static/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="static/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="static/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="static/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="static/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="static/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+    <script src="static/vendors/jszip/dist/jszip.min.js"></script>
+    <script src="static/vendors/pdfmake/build/pdfmake.min.js"></script>
+    <script src="static/vendors/pdfmake/build/vfs_fonts.js"></script>
+    
+    <script src="static/vendors/jquery.confirm/dist/jquery-confirm.min.js"></script>
 
     <!-- Custom Theme Scripts -->
     <script src="static/build/js/custom.min.js"></script>
@@ -361,21 +474,59 @@
     <script>
       
         $(document).ready(function(){
+            
+            $("#_rut").val($("#rut").val());
                 
             $("#save-colaborador").click(function(){
                // console.log(validar_form("#frm-add-colaborador"));
                 if(validar_form("#frm-add-colaborador")){
-                    new PNotify({
-                        title: 'Error!',
-                        text: 'Faltan campos por llenar, revise el formulario.',
-                        type: 'error',
-                        styling: 'bootstrap3'
+                    $.alert({
+                        title: 'Alerta!',
+                        content: 'Faltan campos por llenar, revise el formulario.'
                     });
                     return false;
                 }else{
                     $("#frm-add-colaborador").submit();
                 }
             });
+            
+            $("#save-documento").click(function(){
+                if(validar_form("#frm")){
+                    $.alert({
+                        title: 'Alerta!',
+                        content: 'Debe agregar un archivo de tipo excel!'
+                    });
+                    return false;
+                }else{
+                    // Obtener el archivo cargado
+                    const archivo = document.getElementById('upload-file').files[0];
+
+                    // Obtener la extensión del archivo
+                    const extension = archivo.name.split('.').pop();
+
+                    // Lista de extensiones permitidas
+                    const extensionesPermitidas = ['png', 'jpg', 'gif', 'jpeg', 'pdf', 'xlsx', 'xls', 'docx', 'doc'];
+
+                    // Validar si la extensión está permitida
+                    if (!extensionesPermitidas.includes(extension)) {
+                        $.alert({
+                            title: 'Alerta!',
+                            content: 'La extension del archivo no es valida, debe agregar un archivo con extension .png, .jpg, .gif, .jpeg, .pdf, .xlsx, .xls, .docx, .doc'
+                        });
+                    } else {
+                        $("#nombre_completo").val($("#nombre_imagen").val() + "." + extension);
+                        $("#frm").submit();
+                    }
+                }
+            });
+            
+            /*$("#tipo_archivo").change(function (){
+                if(this.value === "FP"){
+                    $("#_rut").val($("#rut").val());
+                }else{
+                    $("#_rut").val($("#rut").val());
+                }
+            });*/
         });
         
         function validar_form(frm){

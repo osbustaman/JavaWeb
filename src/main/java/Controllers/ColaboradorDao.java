@@ -3,6 +3,7 @@ package Controllers;
 import Models.Cargo;
 import Models.Colaborador;
 import Models.Comuna;
+import Models.ExpedienteUsuario;
 import Models.Pais;
 import Models.Region;
 import connection.Utils;
@@ -47,7 +48,8 @@ public class ColaboradorDao {
                 + "rut, "
                 + "nombres, "
                 + "apellidos,"
-                + "token_sesion "
+                + "token_sesion, "
+                + "path_colaborador "
                 + "FROM "
                 + "gp_colaborador "
                 + "WHERE "
@@ -71,6 +73,7 @@ public class ColaboradorDao {
             colaborador.setRut(rs.getString("rut"));
             colaborador.setNombres(rs.getString("nombres"));
             colaborador.setApellidos(rs.getString("apellidos"));
+            colaborador.setPathColaborador(rs.getString("path_colaborador"));
             //colaborador.setTokenSesion(rs.getString("token_sesion"));
             
             String tokenUsuario = updateTokenColaborador(rs.getInt("id"));
@@ -288,7 +291,229 @@ public class ColaboradorDao {
 
         // Devolver el ID del huerto insertado
         return colaboradorId;
-
     }
+    
+    public Colaborador getColaborador(int id) throws SQLException, ClassNotFoundException{
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
 
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+        
+        // Crear la sentencia SQL para insertar un huerto
+        String sqlSelect = "SELECT id, rut, nombres, apellidos, direccion, pais_id, region_id, comuna_id, estado_civil, sexo, cargo_id, fecha_ingreso, password, perfil_id FROM gp_colaborador WHERE id = ?;";
+       
+        try (PreparedStatement psSelect = _conexion.prepareStatement(sqlSelect)) {
+            
+            psSelect.setInt(1, id);
+
+            // Ejecutar la sentencia SQL
+            ResultSet rsSelect = psSelect.executeQuery();
+
+            // Recorrer los resultados y mostrarlos por consola
+            Colaborador colaborador = new Colaborador();
+            while (rsSelect.next()) {
+                colaborador.setId(rsSelect.getInt("id"));
+                colaborador.setRut(rsSelect.getString("rut"));
+                colaborador.setNombres(rsSelect.getString("nombres"));
+                colaborador.setApellidos(rsSelect.getString("apellidos"));
+                colaborador.setDireccion(rsSelect.getString("direccion"));
+                
+                Pais pais = new Pais();
+                pais.setId(rsSelect.getInt("pais_id"));
+                colaborador.setPais(pais);
+                
+                Region region = new Region();
+                region.setId(rsSelect.getInt("region_id"));
+                colaborador.setRegion(region);
+                
+                Comuna comuna = new Comuna();
+                comuna.setId(rsSelect.getInt("comuna_id"));
+                colaborador.setComuna(comuna);
+                
+                colaborador.setEstadoCivil(rsSelect.getString("estado_civil"));
+                colaborador.setSexo(rsSelect.getString("sexo"));
+                
+                Cargo cargo = new Cargo();
+                cargo.setId(rsSelect.getInt("cargo_id"));
+                colaborador.setCargo(cargo);
+                
+                colaborador.setFechaIngreso(rsSelect.getString("fecha_ingreso"));
+                colaborador.setPassword(rsSelect.getString("password"));
+                colaborador.setPerfil(rsSelect.getInt("perfil_id"));
+
+            }
+            return colaborador;
+        }
+    }
+    
+    public int updateColaborador(int id, Colaborador colaborador) throws SQLException, ClassNotFoundException{
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+        String sqlUpdate = "UPDATE gp_colaborador SET nombres = ?, apellidos = ?, direccion = ?, pais_id = ?, region_id = ?, comuna_id = ?, estado_civil = ?, sexo = ?, cargo_id = ?, fecha_ingreso = ?, perfil_id = ? WHERE id = ?;";
+        sentencia = _conexion.prepareStatement(sqlUpdate);
+        sentencia.setString(1, colaborador.getNombres());
+        sentencia.setString(2, colaborador.getApellidos());
+        sentencia.setString(3, colaborador.getDireccion());
+        sentencia.setInt(4, colaborador.getPais().getId());
+        sentencia.setInt(5, colaborador.getRegion().getId());
+        sentencia.setInt(6, colaborador.getComuna().getId());
+        sentencia.setString(7, colaborador.getEstadoCivil());
+        sentencia.setString(8, colaborador.getSexo());
+        sentencia.setInt(9, colaborador.getCargo().getId());
+        sentencia.setString(10, colaborador.getFechaIngreso());
+        sentencia.setInt(11, colaborador.getPerfil());
+        sentencia.setInt(12, id);
+        sentencia.executeUpdate();
+        
+        return id;
+    }
+    
+    public List<Colaborador> listarColaboradores() throws SQLException, ClassNotFoundException{
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+        
+        // Crear la sentencia SQL para insertar un huerto
+        String sqlSelect = "SELECT \n" +
+                            "	colaborador.id AS id\n" +
+                            "    , colaborador.rut AS rut\n" +
+                            "    , colaborador.nombres AS nombres\n" +
+                            "    , colaborador.apellidos AS apellidos\n" +
+                            "    , colaborador.estado_civil AS estado_civil\n" +
+                            "    , colaborador.sexo AS sexo\n" +
+                            "    , cargo.id AS cargo_id\n" +
+                            "    , cargo.nombre_cargo AS nombre_cargo\n" +
+                            "    , colaborador.perfil_id AS perfil_id\n" +
+                            "FROM gp_colaborador colaborador\n" +
+                            "INNER JOIN gp_cargo cargo ON cargo.id = colaborador.cargo_id;";
+       
+        try (PreparedStatement psSelect = _conexion.prepareStatement(sqlSelect)) {
+
+            // Ejecutar la sentencia SQL
+            ResultSet rsSelect = psSelect.executeQuery();
+
+            // Recorrer los resultados y mostrarlos por consola
+            List<Colaborador> listaColaborador = new ArrayList<>();
+            while (rsSelect.next()) {
+                Colaborador colaborador = new Colaborador();
+                colaborador.setId(rsSelect.getInt("id"));
+                colaborador.setRut(rsSelect.getString("rut"));
+                colaborador.setNombres(rsSelect.getString("nombres"));
+                colaborador.setApellidos(rsSelect.getString("apellidos"));
+                colaborador.setEstadoCivil(rsSelect.getString("estado_civil"));
+                colaborador.setSexo(rsSelect.getString("sexo"));
+                
+                Cargo cargo = new Cargo(rsSelect.getInt("cargo_id"), rsSelect.getString("nombre_cargo"));
+                colaborador.setCargo(cargo);
+                
+                colaborador.setPerfil(rsSelect.getInt("perfil_id"));
+
+                listaColaborador.add(colaborador);
+            }
+            return listaColaborador;
+        }
+    }
+    
+    public void deletecolaborador(int id) throws SQLException, ClassNotFoundException{
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+        String sqlUpdate = "DELETE FROM gp_colaborador WHERE id = ?;";
+        sentencia = _conexion.prepareStatement(sqlUpdate);
+        sentencia.setInt(1, id);
+        sentencia.executeUpdate();
+    }
+    
+    public void updateImagenColaborador(int id, String path) throws SQLException, ClassNotFoundException{
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+        String sqlUpdate = "UPDATE gp_colaborador SET path_colaborador = ? WHERE id = ?;";
+        sentencia = _conexion.prepareStatement(sqlUpdate);
+        sentencia.setString(1, path);
+        sentencia.setInt(2, id);
+        sentencia.executeUpdate();
+    }
+    
+    
+    public int insertarDocumento(ExpedienteUsuario eu) throws SQLException, ClassNotFoundException{
+
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+
+        // Crear la sentencia SQL para insertar un huerto
+        String sql = "INSERT INTO gp_expediente_colaborador (colaborador_id, path_archivo, nombre_archivo)"
+                   + " VALUES (?, ?, ?);";
+
+        // Declarar una variable para almacenar el ID generado
+        int expedienteId;
+
+        // Crear un PreparedStatement y especificar que se deben devolver las claves generadas
+        try (PreparedStatement ps = _conexion.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Establecer los valores de los parámetros en la sentencia SQL
+            ps.setInt(1, eu.getColaborador().getId());
+            ps.setString(2, eu.getPath());
+            ps.setString(3, eu.getNombreArchivo());
+
+            
+            // Ejecutar la sentencia SQL
+            ps.executeUpdate();
+
+            try ( // Obtener el ID generado
+                    ResultSet result = ps.getGeneratedKeys()) {
+                expedienteId = -1;
+                if (result.next()) {
+                    expedienteId = result.getInt(1);
+                }
+                // Cerrar el ResultSet
+            }
+        }
+
+        // Devolver el ID del huerto insertado
+        return expedienteId;
+    }
+    
+    public List<ExpedienteUsuario> listarExpedienteColaborador(int id) throws SQLException, ClassNotFoundException{
+        // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+        ConexionMySQL con = new ConexionMySQL();
+
+        // Obtener la conexión a la base de datos
+        Connection _conexion = con.conector();
+        
+        // Crear la sentencia SQL para insertar un huerto
+        String sqlSelect = "SELECT id, nombre_archivo, path_archivo FROM gp_expediente_colaborador WHERE colaborador_id = ?;";
+       
+        try (PreparedStatement psSelect = _conexion.prepareStatement(sqlSelect)) {
+            
+            psSelect.setInt(1, id);
+
+            // Ejecutar la sentencia SQL
+            ResultSet rsSelect = psSelect.executeQuery();
+
+            // Recorrer los resultados y mostrarlos por consola
+            List<ExpedienteUsuario> lista = new ArrayList<>();
+            while (rsSelect.next()) {
+                ExpedienteUsuario eu = new ExpedienteUsuario();
+                eu.setId(rsSelect.getInt("id"));
+                eu.setNombreArchivo(rsSelect.getString("nombre_archivo"));
+                eu.setPath(rsSelect.getString("path_archivo"));
+                lista.add(eu);
+            }
+            return lista;
+        }
+    }
 }

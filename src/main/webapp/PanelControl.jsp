@@ -37,7 +37,7 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="<% out.println(session.getAttribute("imagenColaborador")); %>" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Bienvenid@,</span>
@@ -55,8 +55,8 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-users"></i> Colaborador <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="PanelControl?page=new_colaborador&response=none">Crear Colaborador</a></li>
-                      <li><a href="PanelControl?page=list_colaborador&response=none">Listar Colaboradores</a></li>
+                      <li><a href="PanelControl?page=new_colaborador">Crear Colaborador</a></li>
+                      <li><a href="PanelControl?page=list_colaborador">Listar Colaboradores</a></li>
                     </ul>
                   </li>
                   
@@ -80,7 +80,7 @@
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="images/img.jpg" alt=""><% out.println(session.getAttribute("nombre") + " " + session.getAttribute("apellidos")); %>
+                      <img src="<% out.println(session.getAttribute("imagenColaborador")); %>" alt=""><% out.println(session.getAttribute("nombre") + " " + session.getAttribute("apellidos")); %>
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="LoginUser?accion=cerrarSesion"><i class="fa fa-sign-out pull-right"></i> Cerrar Sesión</a>
