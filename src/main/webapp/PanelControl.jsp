@@ -41,7 +41,7 @@
               </div>
               <div class="profile_info">
                 <span>Bienvenid@,</span>
-                <h2><% out.println(session.getAttribute("nombre") + " " + session.getAttribute("apellidos")); %></h2>
+                <h2><% out.println(session.getAttribute("nombre") + " " + session.getAttribute("apellidos") + " " + session.getAttribute("perfilId")); %></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -55,8 +55,13 @@
                 <ul class="nav side-menu">
                   <li><a><i class="fa fa-users"></i> Colaborador <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
-                      <li><a href="PanelControl?page=new_colaborador">Crear Colaborador</a></li>
-                      <li><a href="PanelControl?page=list_colaborador">Listar Colaboradores</a></li>
+                        <% if((int)session.getAttribute("perfilId") == 1){ %>
+                        <li><a href="PanelControl?page=new_colaborador">Crear Colaborador</a></li>
+                        <li><a href="PanelControl?page=list_colaborador">Listar Colaboradores</a></li>
+                        <% }else{ %>
+                        <li><a href="PanelControl?page=edit_colaborador&id=<%= session.getAttribute("id") %>">Mis datos</a></li>
+                        <% } %>
+                        
                     </ul>
                   </li>
                   

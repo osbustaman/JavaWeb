@@ -63,8 +63,12 @@
                 <ul class="nav side-menu">
                   <li class="active"><a><i class="fa fa-users"></i> Colaborador <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display: block;">
+                        <% if((int)session.getAttribute("perfilId") == 2){ %>
+                        <li><a href="PanelControl?page=edit_colaborador&id=<%= session.getAttribute("id") %>">Mis datos</a></li>
+                        <% }else{ %>
                         <li><a href="PanelControl?page=new_colaborador">Crear Colaborador</a></li>
                         <li class="current-page"><a href="PanelControl?page=list_colaborador">Listar Colaboradores</a></li>
+                        <% } %>
                     </ul>
                   </li>
                   
@@ -124,9 +128,11 @@
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Colaboradores</a>
                             </li>
+                            <% if((int)session.getAttribute("perfilId") == 1){ %>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Carga Masiva</a>
                             </li>
+                            <% } %>
                         </ul>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
@@ -162,13 +168,16 @@
                                                 <td><% if(colaborador.getPerfil() == 1){out.println("Administrador");}else{out.println("Colaborador");} %></td>
                                                 <td>
                                                     <button type="button" id="editar" class="btn btn-info" onclick="irAEditar(<%= colaborador.getId() %>)">Editar <i class="fa fa-edit"></i></button>
+                                                    <% if((int)session.getAttribute("perfilId") == 1){ %>
                                                     <button type="button" id="borrar" class="btn btn-danger" onclick="deleteColaborador(<%= colaborador.getId() %>)">Borrar <i class="fa fa-trash"></i></button>
+                                                    <% } %>
                                                 </td>
                                             </tr>
                                             <%}%>
                                         </tbody>
                                   </table>
                             </div>
+                            <% if((int)session.getAttribute("perfilId") == 1){ %>
                             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                                 <form id="frm" name="frm" method="post" action="PanelControl?page=carga_masiva" enctype="multipart/form-data">
                                     <div class="item form-group">
@@ -191,6 +200,7 @@
                                     </div>
                                 </form>
                             </div>
+                            <% } %>
                         </div>
                       
                   </div>
@@ -376,7 +386,7 @@
         }
         
         function irAEditar(id){
-            location.href="http://localhost:8080/JavaWeb/PanelControl?page=edit_colaborador&accion=success&id="+id;
+            location.href="http://localhost:8080/JavaWeb/PanelControl?page=edit_colaborador&id="+id;
         }
         
         function deleteColaborador(id){

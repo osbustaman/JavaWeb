@@ -80,6 +80,7 @@ public class LoginUser extends HttpServlet {
                 session.setAttribute("apellidos", colaborador.getApellidos());
                 session.setAttribute("token", colaborador.getTokenSesion());
                 session.setAttribute("imagenColaborador", colaborador.getPathColaborador());
+                session.setAttribute("perfilId", colaborador.getPerfil());
 				
                 // Redireccionar a otra página
                 response.sendRedirect("PanelControl.jsp");

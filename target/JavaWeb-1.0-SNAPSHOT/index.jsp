@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : 03-04-2023, 10:21:51
-    Author     : osbustaman
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -22,6 +16,8 @@
         <link href="static/vendors/nprogress/nprogress.css" rel="stylesheet">
         <!-- Animate.css -->
         <link href="static/vendors/animate.css/animate.min.css" rel="stylesheet">
+        
+        <link href="static/vendors/jquery.confirm/dist/jquery-confirm.min.css" rel="stylesheet">
 
         <!-- Custom Theme Style -->
         <link href="static/build/css/custom.min.css" rel="stylesheet">
@@ -43,7 +39,6 @@
                                 <button type="submit" class="btn btn-default submit">Ingresar</button>
                                 <a class="btn btn-default reset_pass" href="#">Recuperar Contraseña</a>
                             </div>
-                            <%= request.getAttribute("mensaje") %>
                             <div class="clearfix"></div>
 
                             <div class="separator">
@@ -61,4 +56,23 @@
             </div>
         </div>
     </body>
+    
+    <!-- jQuery -->
+    <script src="static/vendors/jquery/dist/jquery.min.js"></script>
+    <script src="static/vendors/jquery.confirm/dist/jquery-confirm.min.js"></script>
+    
+    <script>
+        $(document).ready(function(){
+            <%
+            if(request.getAttribute("mensaje") != null){
+            %>
+            $.alert({
+                title: 'Alerta!',
+                content: '<%= request.getAttribute("mensaje") %>'
+            });
+            <%
+            }
+            %>
+        });
+    </script>
 </html>

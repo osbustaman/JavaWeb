@@ -260,11 +260,11 @@ public class PanelControl extends HttpServlet {
 
                 if(accion.equals("new_colaborador")){
                     int id = colaboradorDao.insertarColaborador(colaborador);
-                    response.sendRedirect("PanelControl?page=edit_colaborador&accion=success&id="+String.valueOf(id));
+                    response.sendRedirect("PanelControl?page=edit_colaborador&accion=success&p=add&id="+String.valueOf(id));
                 }else if(accion.equals("edit_colaborador")){
                     int colaboradorId = Integer.parseInt(request.getParameter("colaborador_id").trim());
                     int id = colaboradorDao.updateColaborador(colaboradorId, colaborador);
-                    response.sendRedirect("PanelControl?page=edit_colaborador&accion=success&id="+String.valueOf(id));
+                    response.sendRedirect("PanelControl?page=edit_colaborador&accion=success&p=edit&id="+String.valueOf(id));
                 }
             }
 

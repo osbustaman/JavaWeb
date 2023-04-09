@@ -76,8 +76,12 @@
                 <ul class="nav side-menu">
                   <li class="active"><a><i class="fa fa-users"></i> Colaborador <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display: block;">
+                        <% if((int)session.getAttribute("perfilId") == 2){ %>
+                        <li><a href="PanelControl?page=edit_colaborador&id=<%= session.getAttribute("id") %>">Mis datos</a></li>
+                        <% }else{ %>
                         <li class="current-page"><a href="PanelControl?page=new_colaborador">Crear Colaborador</a></li>
                         <li><a href="PanelControl?page=list_colaborador">Listar Colaboradores</a></li>
+                        <% } %>
                     </ul>
                   </li>
                   
@@ -332,7 +336,9 @@
                                     <div class="item form-group">
                                         <div class="col-md-6 col-sm-6 offset-md-3">
                                             <button type="button" class="btn btn-primary" type="reset">Limpiar Formulario</button>
+                                            <% if((int)session.getAttribute("perfilId") == 1){ %>
                                             <button type="button" id="save-colaborador" class="btn btn-success">Guardar</button>
+                                            <% } %>
                                         </div>
                                     </div>
                                 </form>
@@ -352,7 +358,9 @@
                                             <select id="tipo_archivo" name="tipo_archivo" class="form-control requieres" required="">
                                                 <option value="">Seleccione..</option>
                                                 <option value="FP" >Foto de perfil </option>
+                                                <% if((int)session.getAttribute("perfilId") == 1){ %>
                                                 <option value="OT" >Otros</option>
+                                                <% } %>
                                             </select>
 
                                         </div>
@@ -399,7 +407,9 @@
                                                 <td><%= expedienteUsuario.getNombreArchivo() %></td>
                                                 <td>
                                                     <a href="<%= expedienteUsuario.getPath()%>" target="_blank" type="button" id="descargar" class="btn btn-success" onclick="">Descargar <i class="fa fa-cloud-download"></i></a>
+                                                    <% if((int)session.getAttribute("perfilId") == 1){ %>
                                                     <button type="button" id="borrar" class="btn btn-danger" onclick="">Borrar <i class="fa fa-trash"></i></button>
+                                                    <% } %>
                                                 </td>
                                             </tr>
                                         </tbody>
@@ -474,6 +484,17 @@
     <script>
       
         $(document).ready(function(){
+            
+            <%
+            if("success".equals(request.getParameter("accion"))){
+            %>
+            $.alert({
+                title: 'Alerta!',
+                content: '<% if("add".equals(request.getAttribute("p"))){%>El colaborador fue creado con éxito<%}else{%>El colaborador fue editado con éxito<%}%>'
+            });
+            <%
+            }
+            %>
             
             $("#_rut").val($("#rut").val());
                 

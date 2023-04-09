@@ -49,7 +49,8 @@ public class ColaboradorDao {
                 + "nombres, "
                 + "apellidos,"
                 + "token_sesion, "
-                + "path_colaborador "
+                + "path_colaborador, "
+                + "perfil_id "
                 + "FROM "
                 + "gp_colaborador "
                 + "WHERE "
@@ -74,6 +75,7 @@ public class ColaboradorDao {
             colaborador.setNombres(rs.getString("nombres"));
             colaborador.setApellidos(rs.getString("apellidos"));
             colaborador.setPathColaborador(rs.getString("path_colaborador"));
+            colaborador.setPerfil(rs.getInt("perfil_id"));
             //colaborador.setTokenSesion(rs.getString("token_sesion"));
             
             String tokenUsuario = updateTokenColaborador(rs.getInt("id"));
