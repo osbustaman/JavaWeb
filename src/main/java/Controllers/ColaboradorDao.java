@@ -428,8 +428,13 @@ public class ColaboradorDao {
 
         // Obtener la conexión a la base de datos
         Connection _conexion = con.conector();
-        String sqlUpdate = "DELETE FROM gp_colaborador WHERE id = ?;";
-        sentencia = _conexion.prepareStatement(sqlUpdate);
+        String sqlDeleteExpedienteColaborador = "DELETE FROM gp_expediente_colaborador WHERE colaborador_id = ?;";
+        sentencia = _conexion.prepareStatement(sqlDeleteExpedienteColaborador);
+        sentencia.setInt(1, id);
+        sentencia.executeUpdate();
+
+        String sqlDeleteColaborador = "DELETE FROM gp_colaborador WHERE id = ?;";
+        sentencia = _conexion.prepareStatement(sqlDeleteColaborador);
         sentencia.setInt(1, id);
         sentencia.executeUpdate();
     }
@@ -485,7 +490,6 @@ public class ColaboradorDao {
             }
         }
 
-        // Devolver el ID del huerto insertado
         return expedienteId;
     }
     
