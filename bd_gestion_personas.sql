@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 09-04-2023 a las 23:51:17
+-- Tiempo de generación: 11-04-2023 a las 01:34:15
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.2.0
 
@@ -73,9 +73,8 @@ CREATE TABLE `gp_colaborador` (
 
 INSERT INTO `gp_colaborador` (`id`, `rut`, `nombres`, `apellidos`, `direccion`, `pais_id`, `region_id`, `comuna_id`, `estado_civil`, `sexo`, `empresa_id`, `cargo_id`, `fecha_ingreso`, `password`, `perfil_id`, `token_sesion`, `path_colaborador`, `image_colaborador`) VALUES
 (2, '16090942-0', 'Homero', 'Simpsons', NULL, 1, 6, 99, NULL, NULL, 1, NULL, NULL, '57bb1d45f14f666634cdb5249c129be8', 1, '', '', ''),
-(434, '13059476-k', 'Bart j', 'Simpsons', 'calle123', 1, 6, 99, 'C', 'M', 1, 2, '2023-04-09', '57bb1d45f14f666634cdb5249c129be8', 2, '', '13059476-k\\osbustaman.jpg', NULL),
-(435, '13266183-9', 'Paula Andrea', 'Torres', 'El alto 1340', 1, 6, 99, 'S', 'F', 1, 2, '2023-04-09', '57bb1d45f14f666634cdb5249c129be8', 2, '', '13266183-9\\dfghgfhgfh.png', NULL),
-(436, '20987018-5', 'Lisa J', 'Simpsons', 'calle 456', 1, 6, 84, 'C', 'F', 1, 1, '2023-04-09', 'e10adc3949ba59abbe56e057f20f883e', 1, 'bIWy7S0fvPXacdl65IUPdH5ASB3ggAQc9XdTdtrtnO9BVlRp21k8U0a8YujXgowWPsxJswriL5BhuTaV5tMxWJoGIfA7M0NqxMiQFQXum6jQ9xSo0Mxk6Fi3bTsEXZjQakS2OUlDJlg7Vc7glezoMQ', '20987018-5\\lisa.jpg', NULL);
+(434, '13059476-k', 'Bart j', 'Simpsons', 'calle123', 1, 6, 99, 'C', 'M', 1, 2, '2023-04-09', '57bb1d45f14f666634cdb5249c129be8', 2, 'uFEZYCgQ0NH5FR33l4vWwObtbO4Cqp8eX8jwYpnG17WFdb6NoI6W9xX36qbgGzF4LZeRf1Raa6ja9KOF13739YPvb4zLhu5R7N09MieMGtQXGN0LQ43btQpkRaEYDf66VhR7BZD10hAWPDVglfBJ5B', '13059476-k\\osbustaman.jpg', NULL),
+(436, '20987018-5', 'Lisa J', 'Simpsons', 'calle 456', 1, 6, 84, 'C', 'F', 1, 1, '2023-04-09', 'e10adc3949ba59abbe56e057f20f883e', 1, 'VJO9gZQHvYNd4ynrY6KqdtYvoDRxgDg9fedy7zAAk9vhlWPnyH5tChWWmOeG6QgcSqhRHrmMwzyE6zDFDuutwdGneeRwhNNSIjuEzunGtGdEyQte8Ve5zH2jG1HByDDqEpjOLDfNshdHqkgH2Pjtqh', '20987018-5\\lisa.jpg', NULL);
 
 -- --------------------------------------------------------
 
@@ -500,8 +499,6 @@ CREATE TABLE `gp_expediente_colaborador` (
 --
 
 INSERT INTO `gp_expediente_colaborador` (`id`, `colaborador_id`, `path_archivo`, `nombre_archivo`) VALUES
-(1, 435, '13266183-9\\licencia medica.pdf', 'licencia medica.pdf'),
-(2, 435, '13266183-9\\curriculum.pdf', 'curriculum.pdf'),
 (3, 436, '20987018-5\\zxczxczxczxc.docx', 'zxczxczxczxc.docx');
 
 -- --------------------------------------------------------
