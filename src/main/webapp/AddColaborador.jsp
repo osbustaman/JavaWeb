@@ -1,3 +1,5 @@
+<%@page import="Models.TelefonoColaborador"%>
+<%@page import="Models.CorreoColaborador"%>
 <%@page import="Models.ExpedienteUsuario"%>
 <%@page import="Models.Cargo"%>
 <%@page import="Models.Comuna"%>
@@ -147,6 +149,12 @@
                             %>
                             <li class="nav-item">
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Documentación Colaborador</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="correo-tab" data-toggle="tab" href="#correo" role="tab" aria-controls="correo" aria-selected="false">Correos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="fono-tab" data-toggle="tab" href="#fono" role="tab" aria-controls="fono" aria-selected="false">Teléfonos</a>
                             </li>
                             <%
                             }
@@ -335,7 +343,6 @@
                                     <div class="ln_solid"></div>
                                     <div class="item form-group">
                                         <div class="col-md-6 col-sm-6 offset-md-3">
-                                            <button type="button" class="btn btn-primary" type="reset">Limpiar Formulario</button>
                                             <% if((int)session.getAttribute("perfilId") == 1){ %>
                                             <button type="button" id="save-colaborador" class="btn btn-success">Guardar</button>
                                             <% } %>
@@ -362,7 +369,6 @@
                                                 <option value="OT" >Otros</option>
                                                 <% } %>
                                             </select>
-
                                         </div>
                                     </div>
                                     <div class="item form-group">
@@ -397,22 +403,142 @@
                                             <th>ACCION</th>
                                           </tr>
                                         </thead>
-                                        <%
-                                        List<ExpedienteUsuario> expedienteUsuarios=(List<ExpedienteUsuario>)request.getAttribute("lstExpedientes");
-                                        for(ExpedienteUsuario expedienteUsuario:expedienteUsuarios){
-                                        %>
+                                        
                                         <tbody>
+                                            <%
+                                            List<ExpedienteUsuario> expedienteUsuarios=(List<ExpedienteUsuario>)request.getAttribute("lstExpedientes");
+                                            for(ExpedienteUsuario expedienteUsuario:expedienteUsuarios){
+                                            %>
                                             <tr>
                                                 <td><%= expedienteUsuario.getId() %></td>
                                                 <td><%= expedienteUsuario.getNombreArchivo() %></td>
                                                 <td>
                                                     <a href="<%= expedienteUsuario.getPath()%>" target="_blank" type="button" id="descargar" class="btn btn-success" onclick="">Descargar <i class="fa fa-cloud-download"></i></a>
                                                     <% if((int)session.getAttribute("perfilId") == 1){ %>
-                                                    <button type="button" id="borrar" class="btn btn-danger" onclick="">Borrar <i class="fa fa-trash"></i></button>
+                                                    <button type="button" id="borrar" class="btn btn-danger" onclick="eliminar_documento(<% out.println(request.getParameter("id")); %>, <%= expedienteUsuario.getId() %>)">Borrar <i class="fa fa-trash"></i></button>
                                                     <% } %>
                                                 </td>
                                             </tr>
+                                            <%
+                                            }
+                                            %>
                                         </tbody>
+                                  </table>
+                            </div>
+                                  
+                            <div class="tab-pane fade" id="correo" role="tabpanel" aria-labelledby="correo-tab">
+                                <form id="frm-correo" name="frm-correo" method="post" action="PanelControl?page=add_correo&id=<% out.println(request.getParameter("id")); %>">
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Tipo Correo <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="tipo_correo" name="tipo_correo" class="form-control requieres">
+                                                <option value="">Seleccione..</option>
+                                                <option value="P" >Personal</option>
+                                                <option value="L" >Laboral</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Correo <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="correo_colaborador" name="correo_colaborador" required="required" autocomplete="off" class="form-control requieres">
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button type="button" id="save-correo" class="btn btn-success">Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                    
+                                <table id="datatable-correo" class="table table-striped table-bordered" style="width:100%">
+                                    <thead>
+                                      <tr>
+                                        <th>ID</th>
+                                        <th>TIPO CORREO</th>
+                                        <th>CORREO</th>
+                                        <th>ACCION</th>
+                                      </tr>
+                                    </thead>
+                                        
+                                    <tbody>
+                                    <%
+                                    List<CorreoColaborador> correoColaboradores=(List<CorreoColaborador>)request.getAttribute("lstCorreos");
+                                    for(CorreoColaborador correoColaboradore:correoColaboradores){
+                                    %>
+                                    <tr>
+                                        <td><%= correoColaboradore.getId() %></td>
+                                        <td><% if("P".equals(correoColaboradore.getTipoCorreo())){out.println("Personal");}else{out.println("Laboral");} %></td>
+                                        <td><%= correoColaboradore.getCorreo()%></td>
+                                        <td>
+                                            <% if((int)session.getAttribute("perfilId") == 1){ %>
+                                            <button type="button" id="borrar" class="btn btn-danger" onclick="eliminar_correo(<% out.println(request.getParameter("id")); %>, <%= correoColaboradore.getId() %>)">Borrar <i class="fa fa-trash"></i></button>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                    <%
+                                    }
+                                    %>
+                                </tbody>
+                                    
+                                </table>
+                            </div>
+                            <div class="tab-pane fade" id="fono" role="tabpanel" aria-labelledby="fono-tab">
+                                <form id="frm-fono" name="frm-fono" method="post" action="PanelControl?page=add_fono&id=<% out.println(request.getParameter("id")); %>">
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Tipo Teléfono <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <select id="tipo_fono" name="tipo_fono" class="form-control requieres">
+                                                <option value="">Seleccione..</option>
+                                                <option value="P" >Personal</option>
+                                                <option value="L" >Laboral</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="item form-group">
+                                        <label class="col-form-label col-md-3 col-sm-3 label-align">Telefono <span class="required">*</span>
+                                        </label>
+                                        <div class="col-md-6 col-sm-6 ">
+                                            <input type="text" id="fono_colaborador" name="fono_colaborador" required="required" autocomplete="off" class="form-control requieres">
+                                        </div>
+                                    </div>
+                                    <div class="ln_solid"></div>
+                                    <div class="item form-group">
+                                        <div class="col-md-6 col-sm-6 offset-md-3">
+                                            <button type="button" id="save-fono" class="btn btn-success">Guardar</button>
+                                        </div>
+                                    </div>
+                                </form>
+                                    
+                                <table id="datatable-fono" class="table table-striped table-bordered" style="width:100%">
+                                        <thead>
+                                          <tr>
+                                            <th>ID</th>
+                                            <th>TIPO TELÉFONO</th>
+                                            <th>NÚMERO TELÉFONO</th>
+                                            <th>ACCION</th>
+                                          </tr>
+                                        </thead>
+
+                                        <tbody>
+                                        <%
+                                        List<TelefonoColaborador> telefonosColaboradores=(List<TelefonoColaborador>)request.getAttribute("lstFonos");
+                                        for(TelefonoColaborador telefonosColaborador:telefonosColaboradores){
+                                        %>
+                                        <tr>
+                                            <td><%= telefonosColaborador.getId() %></td>
+                                            <td><% if("P".equals(telefonosColaborador.getTipoTelefono())){out.println("Personal");}else{out.println("Laboral");} %></td>
+                                            <td><%= telefonosColaborador.getNumeroTelefono()%></td>
+                                            <td>
+                                                <% if((int)session.getAttribute("perfilId") == 1){ %>
+                                                <button type="button" id="borrar" class="btn btn-danger" onclick="eliminar_fono(<% out.println(request.getParameter("id")); %>, <%= telefonosColaborador.getId() %>)">Borrar <i class="fa fa-trash"></i></button>
+                                                <% } %>
+                                            </td>
+                                        </tr>
                                         <%
                                         }
                                         %>
@@ -484,6 +610,9 @@
     <script>
       
         $(document).ready(function(){
+                      $("#datatable-fono").dataTable();
+            $("#datatable-correo").dataTable();
+            
             
             <%
             if("success".equals(request.getParameter("accion"))){
@@ -495,9 +624,50 @@
             <%
             }
             %>
-            
+                    
+                    
+  
             $("#_rut").val($("#rut").val());
-                
+            
+            $("#save-correo").click(function(){
+               // console.log(validar_form("#frm-add-colaborador"));
+                if(validar_form("#frm-correo")){
+                    $.alert({
+                        title: 'Alerta!',
+                        content: 'Faltan campos por llenar, revise el formulario de correo.'
+                    });
+                    return false;
+                }else{
+                    $("#frm-correo").submit();
+                }
+            });
+            
+            $("#save-fono").click(function(){
+               // console.log(validar_form("#frm-add-colaborador"));
+                if(validar_form("#frm-fono")){
+                    $.alert({
+                        title: 'Alerta!',
+                        content: 'Faltan campos por llenar, revise el formulario de teléfono.'
+                    });
+                    return false;
+                }else{
+                    $("#frm-fono").submit();
+                }
+            });
+            
+            $("#save-colaborador").click(function(){
+               // console.log(validar_form("#frm-add-colaborador"));
+                if(validar_form("#frm-add-colaborador")){
+                    $.alert({
+                        title: 'Alerta!',
+                        content: 'Faltan campos por llenar, revise el formulario.'
+                    });
+                    return false;
+                }else{
+                    $("#frm-add-colaborador").submit();
+                }
+            });
+            
             $("#save-colaborador").click(function(){
                // console.log(validar_form("#frm-add-colaborador"));
                 if(validar_form("#frm-add-colaborador")){
@@ -648,6 +818,48 @@
             // Expresión regular para validar correo electrónico
             var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
+        }
+        
+        function eliminar_correo(id, correoId){
+            $.confirm({
+                title: 'Confirmar!',
+                content: 'Esta seguro de borrar el correo?, para borrar haga clic en confirmar de lo contrario en cancelar',
+                buttons: {
+                    confirmar: function () {
+                        location.href="http://localhost:8080/JavaWeb/PanelControl?page=delete_correo&id="+id+"&correo_id="+correoId;
+                    },
+                    cancelar: function () {
+                    }
+                }
+            });
+        }
+        
+        function eliminar_fono(id, fonoId){
+            $.confirm({
+                title: 'Confirmar!',
+                content: 'Esta seguro de borrar el correo?, para borrar haga clic en confirmar de lo contrario en cancelar',
+                buttons: {
+                    confirmar: function () {
+                        location.href="http://localhost:8080/JavaWeb/PanelControl?page=delete_fono&id="+id+"&fono_id="+fonoId;
+                    },
+                    cancelar: function () {
+                    }
+                }
+            });
+        }
+        
+        function eliminar_documento(id, documentoId){
+            $.confirm({
+                title: 'Confirmar!',
+                content: 'Esta seguro de borrar el correo?, para borrar haga clic en confirmar de lo contrario en cancelar',
+                buttons: {
+                    confirmar: function () {
+                        location.href="http://localhost:8080/JavaWeb/PanelControl?page=delete_documento&id="+id+"&documento_id="+documentoId;
+                    },
+                    cancelar: function () {
+                    }
+                }
+            });
         }
 
 

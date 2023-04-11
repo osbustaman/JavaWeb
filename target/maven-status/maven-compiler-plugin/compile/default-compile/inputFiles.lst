@@ -5,6 +5,7 @@ C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Expe
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Views\LoginUser.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\connection\Utils.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Pais.java
+C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Controllers\CorreoColaboradorDao.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Empresa.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Views\PanelControl.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Main.java
@@ -13,3 +14,4 @@ C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Tele
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\Colaborador.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Models\CorreoColaborador.java
 C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Controllers\ColaboradorDao.java
+C:\Users\osbustaman\Documents\NetBeansProjects\JavaWeb\src\main\java\Controllers\TelefonoColaboradorDao.java

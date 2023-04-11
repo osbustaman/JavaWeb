@@ -522,4 +522,16 @@ public class ColaboradorDao {
             return lista;
         }
     }
+    
+        public void deleteExpediente(int id) throws SQLException, ClassNotFoundException{
+            // Crear un objeto ConexionMySQL para conectarnos a la base de datos
+            ConexionMySQL con = new ConexionMySQL();
+
+            // Obtener la conexión a la base de datos
+            Connection _conexion = con.conector();
+            String sqlDeleteExpedienteColaborador = "DELETE FROM gp_expediente_colaborador WHERE id = ?;";
+            sentencia = _conexion.prepareStatement(sqlDeleteExpedienteColaborador);
+            sentencia.setInt(1, id);
+            sentencia.executeUpdate();
+        }
 }

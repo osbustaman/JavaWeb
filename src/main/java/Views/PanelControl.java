@@ -1,13 +1,17 @@
 package Views;
 
 import Controllers.ColaboradorDao;
+import Controllers.CorreoColaboradorDao;
+import Controllers.TelefonoColaboradorDao;
 import Models.Cargo;
 import Models.Colaborador;
 import Models.Comuna;
+import Models.CorreoColaborador;
 import Models.Empresa;
 import Models.ExpedienteUsuario;
 import Models.Pais;
 import Models.Region;
+import Models.TelefonoColaborador;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -34,6 +38,8 @@ public class PanelControl extends HttpServlet {
     
     RequestDispatcher rd;
     Colaborador colaborador;
+    CorreoColaboradorDao ccd;
+    TelefonoColaboradorDao tcd;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, SQLException, ClassNotFoundException {
@@ -61,8 +67,14 @@ public class PanelControl extends HttpServlet {
         }else switch (accion) {
             case "edit_colaborador":
                 
-                Colaborador colaborador = colaboradorDao.getColaborador(Integer.parseInt(request.getParameter("id")));
+                colaborador = colaboradorDao.getColaborador(Integer.parseInt(request.getParameter("id")));
                 
+                ccd = new CorreoColaboradorDao();
+                request.setAttribute("lstCorreos", ccd.listarCorreoColaborador(Integer.parseInt(request.getParameter("id"))));
+
+                tcd = new TelefonoColaboradorDao();
+                request.setAttribute("lstFonos", tcd.listarTelefonoColaborador(Integer.parseInt(request.getParameter("id"))));
+
                 request.setAttribute("id", colaborador.getId());
                 request.setAttribute("rut", colaborador.getRut());
                 request.setAttribute("nombres", colaborador.getNombres());
@@ -92,9 +104,34 @@ public class PanelControl extends HttpServlet {
                 rd = request.getRequestDispatcher("AddColaborador.jsp");
                 rd.forward(request, response);
                 break;
+//            case "add_correo":
+//                request.setAttribute("loQueHace", "AgregarCorreo");
+//                rd = request.getRequestDispatcher("AddColaborador.jsp");
+//                rd.forward(request, response);
+//                break;
+//            case "add_fono":
+//                request.setAttribute("loQueHace", "AgregarFono");
+//                rd = request.getRequestDispatcher("AddColaborador.jsp");
+//                rd.forward(request, response);
+//                break;
             case "delete_colaborador":
                 colaboradorDao.deletecolaborador(Integer.parseInt(request.getParameter("id")));
                 response.sendRedirect("PanelControl?page=list_colaborador");
+                break;
+            case "delete_correo":
+                ccd.deleteCorreo(Integer.parseInt(request.getParameter("correo_id")));
+                rd = request.getRequestDispatcher("PanelControl?page=edit_colaborador&id="+request.getParameter("id"));
+                rd.forward(request, response);
+                break;
+            case "delete_fono":
+                tcd.deleteTelefono(Integer.parseInt(request.getParameter("fono_id")));
+                rd = request.getRequestDispatcher("PanelControl?page=edit_colaborador&id="+request.getParameter("id"));
+                rd.forward(request, response);
+                break;
+            case "delete_documento":
+                colaboradorDao.deleteExpediente(Integer.parseInt(request.getParameter("documento_id")));
+                rd = request.getRequestDispatcher("PanelControl?page=edit_colaborador&id="+request.getParameter("id"));
+                rd.forward(request, response);
                 break;
             case "list_colaborador":
                 request.setAttribute("pagina", "ListColaborador.jsp");
@@ -137,7 +174,45 @@ public class PanelControl extends HttpServlet {
             // Obtener la ruta del directorio raíz
             String rootPath = context.getRealPath("\\");
             
-            if (accion.equals("carga_masiva") || accion.equals("upload_archivo")){
+            if (accion.equals("add_correo")){
+                int id = Integer.parseInt(request.getParameter("id"));
+                
+                colaborador = new Colaborador();
+                colaborador.setId(id);
+                        
+                String tipoCorreo = request.getParameter("tipo_correo");
+                String correo = request.getParameter("correo_colaborador");
+                
+                ccd = new CorreoColaboradorDao();
+                CorreoColaborador cc = new CorreoColaborador();
+                
+                cc.setColaborador(colaborador);
+                cc.setTipoCorreo(tipoCorreo);
+                cc.setCorreo(correo);
+                ccd.insertarCorreo(cc);
+                
+                response.sendRedirect("PanelControl?page=edit_colaborador&p=correo&id="+request.getParameter("id"));
+                
+            }else if (accion.equals("add_fono")){
+                int id = Integer.parseInt(request.getParameter("id"));
+                
+                colaborador = new Colaborador();
+                colaborador.setId(id);
+                        
+                String tipFono = request.getParameter("tipo_fono");
+                String fono = request.getParameter("fono_colaborador");
+                
+                tcd = new TelefonoColaboradorDao();
+                TelefonoColaborador fc = new TelefonoColaborador();
+                
+                fc.setColaborador(colaborador);
+                fc.setTipoTelefono(tipFono);
+                fc.setNumeroTelefono(fono);
+                tcd.insertarTelefono(fc);
+                
+                response.sendRedirect("PanelControl?page=edit_colaborador&p=fono&id="+request.getParameter("id"));
+                
+            }else if (accion.equals("carga_masiva") || accion.equals("upload_archivo")){
                 
                 PrintWriter out = response.getWriter();
                 
@@ -192,9 +267,6 @@ public class PanelControl extends HttpServlet {
                 }else{
                     response.sendRedirect("PanelControl?page=list_colaborador");
                 }
-                
-                
-                
             }else{
                 
                 String nombres = request.getParameter("nombres");
